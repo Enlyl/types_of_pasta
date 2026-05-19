@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Arte della Pasta</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%231a1612'/%3E%3Cpath d='M18 28c0-4 6-14 14-14s14 10 14 14-6 14-14 14S18 32 18 28z' fill='%23c9a962' opacity='0.9'/%3E%3Cpath d='M22 28c0-3 4-10 10-10s10 7 10 10-4 10-10 10S22 31 22 28z' fill='%23e8d5a3' opacity='0.7'/%3E%3Cpath d='M27 26c0-1.5 2-5 5-5s5 3.5 5 5-2 5-5 5-5-3.5-5-5z' fill='%231a1612'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #c9a962;
+            --gold-light: #e8d5a3;
+            --cream: #faf6f0;
+            --dark: #1a1612;
+            --burgundy: #5c1a1a;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--dark);
+            color: var(--cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(201, 169, 98, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(201, 169, 98, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 0%, rgba(201, 169, 98, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%),
+                repeating-linear-gradient(-45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+            background-size: 60px 60px;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.5s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.2s forwards;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            font-size: 0.6em;
+            color: var(--gold-light);
+            letter-spacing: 0.2em;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--gold-light);
+            opacity: 0.8;
+            margin-top: 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.8s forwards;
+        }
+
+        .hero-line {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 2rem auto;
+            animation: expandLine 1.5s ease 1s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes expandLine {
+            to { width: 300px; }
+        }
+
+        .scroll-indicator {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.5s forwards;
+            padding-bottom: 2rem;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            text-align: center;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.5; transform: scaleY(0.8); }
+        }
+
+        .intro {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--dark) 0%, #0f0d0a 50%, var(--dark) 100%);
+        }
+
+        .intro-text {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.8rem;
+            line-height: 2;
+            color: var(--cream);
+            opacity: 0.9;
+        }
+
+        .intro-text em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .collection {
+            padding: 4rem 2rem 10rem;
+            background: var(--dark);
+        }
+
+        .collection-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .collection-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .collection-header p {
+            color: var(--gold);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .pasta-card {
+            position: relative;
+            background: linear-gradient(145deg, #252220 0%, #1a1612 100%);
+            border: 1px solid rgba(201, 169, 98, 0.2);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .pasta-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pasta-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(201, 169, 98, 0.4);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 100px rgba(201, 169, 98, 0.1);
+        }
+
+        .pasta-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(201, 169, 98, 0.1) 0%, transparent 70%);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            mix-blend-mode: luminosity;
+        }
+
+        .pasta-card:hover .card-image {
+            transform: scale(1.1) rotate(-2deg);
+            filter: drop-shadow(0 30px 60px rgba(201, 169, 98, 0.3));
+            mix-blend-mode: normal;
+        }
+
+        .card-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: var(--gold);
+            opacity: 0.3;
+            transition: opacity 0.4s ease;
+        }
+
+        .card-corner.top-left {
+            top: 0;
+            left: 0;
+            border-top: 1px solid;
+            border-left: 1px solid;
+        }
+
+        .card-corner.top-right {
+            top: 0;
+            right: 0;
+            border-top: 1px solid;
+            border-right: 1px solid;
+        }
+
+        .card-corner.bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom: 1px solid;
+            border-left: 1px solid;
+        }
+
+        .card-corner.bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 1px solid;
+            border-right: 1px solid;
+        }
+
+        .pasta-card:hover .card-corner {
+            opacity: 0.8;
+        }
+
+        .card-content {
+            text-align: center;
+            position: relative;
+        }
+
+        .card-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--gold);
+            opacity: 0.15;
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: opacity 0.4s ease;
+        }
+
+        .pasta-card:hover .card-number {
+            opacity: 0.3;
+        }
+
+        .card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--cream);
+            transition: color 0.4s ease;
+        }
+
+        .pasta-card:hover .card-name {
+            color: var(--gold);
+        }
+
+        .card-name-en {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--cream);
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .card-divider {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem auto;
+            transition: width 0.6s ease;
+        }
+
+        .pasta-card:hover .card-divider {
+            width: 100px;
+        }
+
+        .footer {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--dark) 0%, #0f0d0a 100%);
+            border-top: 1px solid rgba(201, 169, 98, 0.1);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--gold);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--cream);
+            opacity: 0.5;
+            line-height: 1.8;
+        }
+
+        .footer-accent {
+            display: block;
+            margin-top: 2rem;
+            color: var(--gold);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 100svh;
+                padding: 1rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.7rem;
+                letter-spacing: 0.4em;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+
+            .hero h1 span {
+                font-size: 0.5em;
+                margin-top: 0.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1rem;
+                margin-top: 2rem;
+            }
+
+            .hero-line {
+                margin: 1.5rem auto;
+            }
+
+            .scroll-indicator {
+                padding-bottom: 1.5rem;
+            }
+
+            .scroll-indicator span {
+                font-size: 0.65rem;
+            }
+
+            .scroll-line {
+                height: 40px;
+            }
+
+            .intro {
+                padding: 5rem 1.5rem;
+            }
+
+            .intro-text {
+                font-size: 1.3rem;
+                line-height: 1.8;
+            }
+
+            .collection {
+                padding: 3rem 1rem 6rem;
+            }
+
+            .collection-header {
+                margin-bottom: 3rem;
+            }
+
+            .collection-header h2 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .collection-header p {
+                font-size: 0.75rem;
+                letter-spacing: 0.2em;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0;
+            }
+
+            .pasta-card {
+                padding: 1.5rem;
+            }
+
+            .card-image-wrapper {
+                aspect-ratio: 1;
+                margin-bottom: 1.5rem;
+            }
+
+            .card-number {
+                font-size: 3rem;
+                top: -1.5rem;
+            }
+
+            .card-name {
+                font-size: 1.5rem;
+            }
+
+            .card-name-en {
+                font-size: 0.75rem;
+                letter-spacing: 0.15em;
+                margin-bottom: 1rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .card-corner {
+                width: 20px;
+                height: 20px;
+            }
+
+            .pasta-card:hover {
+                transform: translateY(-5px) scale(1.01);
+            }
+
+            .footer {
+                padding: 4rem 1.5rem;
+            }
+
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+
+            .footer-text {
+                font-size: 0.85rem;
+            }
+
+            .footer-accent {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-subtitle {
+                font-size: 0.6rem;
+                letter-spacing: 0.3em;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-tagline {
+                font-size: 0.9rem;
+            }
+
+            .intro-text {
+                font-size: 1.1rem;
+            }
+
+            .collection-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .pasta-card {
+                padding: 1.25rem;
+            }
+
+            .card-number {
+                font-size: 2.5rem;
+                top: -1rem;
+            }
+
+            .card-name {
+                font-size: 1.3rem;
+            }
+
+            .card-description {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-tagline {
+                font-size: 0.85rem;
+            }
+
+            .intro {
+                padding: 3rem 1rem;
+            }
+
+            .intro-text {
+                font-size: 1rem;
+            }
+
+            .pasta-card {
+                padding: 1rem;
+            }
+
+            .card-name {
+                font-size: 1.2rem;
+            }
+
+            .card-description {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (hover: none) {
+            .pasta-card:hover {
+                transform: none;
+            }
+
+            .pasta-card:active {
+                transform: scale(0.98);
+            }
+
+            .pasta-card:hover .card-image {
+                transform: none;
+                mix-blend-mode: luminosity;
+            }
+
+            .pasta-card:hover .card-name {
+                color: var(--cream);
+            }
+
+            .pasta-card:hover .card-corner {
+                opacity: 0.3;
+            }
+
+            .pasta-card:hover .card-number {
+                opacity: 0.15;
+            }
+
+            .pasta-card:hover::before {
+                opacity: 0;
+            }
+
+            .pasta-card:hover .card-divider {
+                width: 0;
+            }
+
+            .card-corner,
+            .card-divider,
+            .card-image {
+                transition: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 6, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(145deg, #1e1b18 0%, #151310 100%);
+            border: 1px solid rgba(201, 169, 98, 0.3);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 3rem;
+            transform: translateY(40px) scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .modal-close:hover {
+            color: var(--cream);
+        }
+
+        .modal-header {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(201, 169, 98, 0.15);
+        }
+
+        .modal-image-wrap {
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .modal-image-wrap img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .modal-title-group h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-title-group .modal-name-en {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.6;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-section h3::before {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        .modal-history {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--cream);
+            opacity: 0.85;
+        }
+
+        .recipes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recipe-item {
+            background: rgba(201, 169, 98, 0.05);
+            border-left: 2px solid var(--gold);
+            padding: 1.25rem 1.5rem;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .recipe-item:hover {
+            background: rgba(201, 169, 98, 0.1);
+        }
+
+        .recipe-item.active {
+            background: rgba(201, 169, 98, 0.08);
+            border-left-color: var(--gold-light);
+        }
+
+        .recipe-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--cream);
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recipe-toggle {
+            font-size: 1.3rem;
+            color: var(--gold);
+            opacity: 0.5;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .recipe-item.active .recipe-toggle {
+            transform: rotate(45deg);
+        }
+
+        .recipe-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .recipe-body-inner {
+            padding-top: 1rem;
+            border-top: 1px solid rgba(201, 169, 98, 0.1);
+            margin-top: 0.75rem;
+        }
+
+        .recipe-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.6;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .recipe-label:first-child {
+            margin-top: 0;
+        }
+
+        .ingredients-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .ingredients-list li {
+            font-size: 0.9rem;
+            color: var(--cream);
+            opacity: 0.85;
+            background: rgba(201, 169, 98, 0.08);
+            padding: 0.3rem 0.7rem;
+            border-radius: 2px;
+        }
+
+        .steps-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .steps-list li {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--cream);
+            opacity: 0.75;
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+            counter-increment: step;
+        }
+
+        .steps-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            color: var(--gold);
+            opacity: 0.6;
+            width: 1.5rem;
+            text-align: right;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .modal {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .modal-image-wrap {
+                width: 100px;
+            }
+
+            .modal-title-group h2 {
+                font-size: 1.8rem;
+            }
+
+            .modal-history {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-decoration"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Settimana della Moda Italiana</p>
+            <h1>L'Arte della Pasta <span>Dried Artisanal Beauty</span></h1>
+            <div class="hero-line"></div>
+            <p class="hero-tagline">Изделия различной формы из высушенного теста</p>
+        </div>
+        <div class="scroll-indicator">
+            <span>Исследовать</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="intro">
+        <p class="intro-text fade-in">
+            В каждом изгибе макаронины — <em>веками накопленная мудрость</em> итальянских мастериц. 
+            Каждая форма создана не случайно: она рождена для определённого соуса, 
+            для особого способа подачи, для <em>совершенства во рту</em>.
+        </p>
+    </section>
+
+    <section class="collection">
+        <div class="collection-header fade-in">
+            <h2>Коллекция Forme</h2>
+            <p>Пятнадцать шедевров итальянского макаронного искусства</p>
+        </div>
+
+        <div class="cards-grid">
+            <article class="pasta-card fade-in" data-delay="0">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/спагетти.png" alt="Спагетти" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">01</span>
+                    <h3 class="card-name">Спагетти</h3>
+                    <p class="card-name-en">Spaghetti</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Королева итальянской пасты. Длинные, тонкие цилиндры совершенны для болоньезе и карбонары. Их история — история самой Италии.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="100">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/фарфалле.png" alt="Фарфалле" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">02</span>
+                    <h3 class="card-name">Фарфалле</h3>
+                    <p class="card-name-en">Farfalle</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Бабочки из теста. Их изгибы созданы для того, чтобы удерживать капли соуса в каждой складке. Идеальны с легкими сливочными соусами.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="200">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/фузилли.png" alt="Фузилли" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">03</span>
+                    <h3 class="card-name">Фузилли</h3>
+                    <p class="card-name-en">Fusilli</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Винтовые спирали, созданные природой для захвата соуса. Каждый оборот — маленькое произведение искусства песто и томатов.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="300">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/фетучини.png" alt="Феттучини" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">04</span>
+                    <h3 class="card-name">Феттучини</h3>
+                    <p class="card-name-en">Fettuccine</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Ленточки шириной в палец. Их нежная текстура раскрывается в классической альфредо, обволакивая каждый кусочек пармезана.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="400">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/ригатони.png" alt="Ригатони" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">05</span>
+                    <h3 class="card-name">Ригатони</h3>
+                    <p class="card-name-en">Rigatoni</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Толстые рифлёные трубки. Их рубцы — ловушки для густых мясных соусов. Итальянский характер в каждом укусе.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="500">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/орекьетте.png" alt="Орекьетте" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">06</span>
+                    <h3 class="card-name">Орекьетте</h3>
+                    <p class="card-name-en">Orecchiette</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Ушки, вылепленные вручную. Каждое — уникально, как отпечаток пальца. Созданы для брокколи рабе и оливкового масла.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="600">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/каватаппи.png" alt="Каватаппи" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">07</span>
+                    <h3 class="card-name">Каватаппи</h3>
+                    <p class="card-name-en">Cavatappi</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Винтовые макароны-трубки. Игривые изгибы приглашают соус войти в каждый завиток. Весёлые и неотразимые.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="700">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/лингуине.png" alt="Лингвине" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">08</span>
+                    <h3 class="card-name">Лингвине</h3>
+                    <p class="card-name-en">Linguine</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Язычки — уплощённые длинные макароны. Их плоская форма идеальна для морепродуктов и лимонного соуса с анчоусами.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="800">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/равиоли.png" alt="Равиоли" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">09</span>
+                    <h3 class="card-name">Равиоли</h3>
+                    <p class="card-name-en">Ravioli</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Маленькие подушечки с начинкой. В каждом квадратике — сокровенность: рикотта, шпинат, грибы или мясо. Целое искусство в одном укусе.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="900">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/пенне.png" alt="Пенне" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">10</span>
+                    <h3 class="card-name">Пенне</h3>
+                    <p class="card-name-en">Penne</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Перья, срезанные под углом 45°. Их скошенные края — идеальные ловушки для густых томатных соусов. Солнечная Италия в каждом кусочке.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="1000">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/тальятелле.png" alt="Тальятелле" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">11</span>
+                    <h3 class="card-name">Тальятелле</h3>
+                    <p class="card-name-en">Tagliatelle</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Широкие ленты, нарезанные вручную. Их текстура — классика болонской кухни. Созревшие яйца и мука — вот их секрет.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="1100">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/паппарделе.png" alt="Паппарделе" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">12</span>
+                    <h3 class="card-name">Паппарделе</h3>
+                    <p class="card-name-en">Pappardelle</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Очень широкие ленты — объятия для соуса. Рождены для дикой лесной говядины и трюфельных сливочных соусов Тосканы.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="1200">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/каннеллони.png" alt="Каннеллони" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">13</span>
+                    <h3 class="card-name">Каннеллони</h3>
+                    <p class="card-name-en">Cannelloni</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Большие трубки, созданные для фарширования. Внутрь кладут мясо, рикотту, шпинат — и запекают до золотой корочки.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="1300">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/конкилье.png" alt="Конкилье" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">14</span>
+                    <h3 class="card-name">Конкилье</h3>
+                    <p class="card-name-en">Conchiglie</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Раковины, созданные морями Сицилии. Их полость — храм для сливочных соусов. Каждая ракушка — миниатюрный сосуд наслаждения.</p>
+                </div>
+            </article>
+
+            <article class="pasta-card fade-in" data-delay="1400">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-image-wrapper">
+                    <img src="images/макароны.jpg" alt="Макароны" class="card-image">
+                </div>
+                <div class="card-content">
+                    <span class="card-number">15</span>
+                    <h3 class="card-name">Макароны</h3>
+                    <p class="card-name-en">Maccheroni</p>
+                    <div class="card-divider"></div>
+                    <p class="card-description">Короткие изогнутые трубочки — сердце неаполитанской кухни. Их форма идеальна для сытных запеканок и молодых соусов.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-logo">La Pasta</p>
+            <p class="footer-text">
+                От полуострова Салento до равнин Пьемонта,<br>
+                от побережья Амальфи до холмов Тосканы —<br>
+                каждая форма рассказывает свою историю.
+            </p>
+            <span class="footer-accent">Buon Appetito, Milano</span>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <div class="modal-image-wrap">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="modal-title-group">
+                    <h2 id="modalTitle"></h2>
+                    <p class="modal-name-en" id="modalTitleEn"></p>
+                </div>
+            </div>
+            <div class="modal-section">
+                <h3>История</h3>
+                <p class="modal-history" id="modalHistory"></p>
+            </div>
+            <div class="modal-section">
+                <h3>Рецепты</h3>
+                <div class="recipes-list" id="recipesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pastaData = {
+            spaghetti: {
+                name: 'Спагетти',
+                nameEn: 'Spaghetti',
+                img: 'images/спагетти.png',
+                number: '01',
+                history: 'Спагетти — самая узнаваемая паста в мире. Родились на Сицилии, но всемирную славу обрели благодаря неаполитанским мастерам. В XIX веке их длина была стандартизирована до 50 см, позже — до 25 см для удобства. Слово "spaghetti" — уменьшительное от "spago" (бечёвка). Спагетти стали символом итальянской кухни и первым видом пасты, начавшим триумфальное шествие по миру.',
+                recipes: [
+                    { name: 'Spaghetti alla Carbonara',
+                        ingredients: ['Спагетти — 400 г', 'Гуанчиале — 200 г', 'Яичные желтки — 4 шт', 'Пекорино романо — 100 г', 'Чёрный перец свежемолотый', 'Соль'],
+                        steps: ['Нарежьте гуанчиале небольшими кубиками и обжарьте на сухой сковороде до хруста.', 'Сварите спагетти аль денте в подсоленной воде.', 'Смешайте желтки с тёртым пекорино и перцем.', 'Снимите сковороду с гуанчиале с огня, добавьте горячие спагетти.', 'Влейте яичную смесь, быстро перемешивая — яйца должны загустеть от тепла пасты.', 'Подавайте немедленно с дополнительным пекорино и перцем.'] },
+                    { name: 'Spaghetti al Pomodoro',
+                        ingredients: ['Спагетти — 400 г', 'Помидоры сан-марцано — 600 г', 'Чеснок — 3 зубчика', 'Базилик свежий — 5 листьев', 'Оливковое масло extra virgin — 50 мл', 'Соль, перец'],
+                        steps: ['Разогрейте оливковое масло в сотейнике, обжарьте раздавленный чеснок до золотистого цвета.', 'Добавьте измельчённые помидоры, варите на медленном огне 20 минут.', 'Приправьте солью, перцем и порванными листьями базилика.', 'Сварите спагетти, откиньте на дуршлаг, сохранив 100 мл воды.', 'Смешайте пасту с соусом, добавляя воду от варки для кремовой текстуры.', 'Подавайте с тёртым пармезаном и свежим базиликом.'] },
+                    { name: 'Spaghetti alle Vongole',
+                        ingredients: ['Спагетти — 400 г', 'Моллюски вонголе — 1 кг', 'Чеснок — 4 зубчика', 'Белое сухое вино — 150 мл', 'Петрушка свежая — пучок', 'Перец чили — 1 шт', 'Оливковое масло — 60 мл'],
+                        steps: ['Замочите вонголе в подсоленной воде на 30 минут, промойте.', 'Разогрейте масло с чесноком и чили, добавьте вонголе и вино.', 'Накройте крышкой и готовьте 5 минут, пока раковины не откроются.', 'Сварите спагетти аль денте.', 'Переложите пасту в сковороду с вонголе, добавьте петрушку.', 'Подавайте сразу, полив соком из сковороды.'] }
+                ]
+            },
+            farfalle: {
+                name: 'Фарфалле',
+                nameEn: 'Farfalle',
+                img: 'images/фарфалле.png',
+                number: '02',
+                history: 'Фарфалле — "бабочки" из Ломбардии и Эмилии-Романьи. Появились в XVI веке, когда повара экспериментировали с формой теста. Характерная сборка посередине создаётся защипыванием пальцами — каждый кусочек делается вручную. Свою популярность фарфалле обрели в XX веке с ростом промышленного производства пасты.',
+                recipes: [
+                    { name: 'Farfalle al Salmone',
+                        ingredients: ['Фарфалле — 400 г', 'Лосось копчёный — 200 г', 'Сливки 20% — 200 мл', 'Укроп свежий — пучок', 'Лимонная цедра — 1 ст.л.', 'Лук-шалот — 2 шт', 'Соль, перец'],
+                        steps: ['Обжарьте мелко нарезанный шалот на сливочном масле до прозрачности.', 'Влейте сливки, добавьте лимонную цедру, тушите 3 минуты.', 'Нарежьте лосось полосками, добавьте в соус, прогрейте 1 минуту.', 'Сварите фарфалле аль денте.', 'Смешайте пасту с соусом, добавьте рубленый укроп.', 'Подавайте с долькой лимона и свежемолотым перцем.'] },
+                    { name: 'Farfalle con Piselli e Pancetta',
+                        ingredients: ['Фарфалле — 400 г', 'Горошек молодой — 300 г', 'Панчетта — 150 г', 'Сливки — 150 мл', 'Лук репчатый — 1 шт', 'Пармезан — 50 г', 'Соль, перец'],
+                        steps: ['Нарежьте панчетту кубиками, обжарьте до хруста. Отложите.', 'В той же сковороде обжарьте мелко нарезанный лук до золотистого цвета.', 'Добавьте горошек и сливки, тушите 5 минут.', 'Сварите фарфалле, сохранив 100 мл воды.', 'Смешайте пасту с соусом, добавьте панчетту и тёртый пармезан.', 'При необходимости добавьте воды от варки для кремовой текстуры.'] },
+                    { name: 'Farfalle Primavera',
+                        ingredients: ['Фарфалле — 400 г', 'Цукини — 2 шт', 'Перец болгарский — 1 шт', 'Помидоры черри — 200 г', 'Баклажан — 1 шт', 'Чеснок — 3 зубчика', 'Оливковое масло — 80 мл', 'Базилик свежий'],
+                        steps: ['Нарежьте цукини, баклажан и перец кубиками, обжарьте на оливковом масле.', 'Добавьте разрезанные пополам черри и чеснок, готовьте 5 минут.', 'Сварите фарфалле аль денте.', 'Смешайте пасту с овощами, добавьте рубленый базилик.', 'Полейте оливковым маслом extra virgin.', 'Подавайте тёплым или комнатной температуры.'] }
+                ]
+            },
+            fusilli: {
+                name: 'Фузилли',
+                nameEn: 'Fusilli',
+                img: 'images/фузилли.png',
+                number: '03',
+                history: 'Фузилли родом из Южной Италии. Их спиральная форма — не просто дизайн, а продуманная инженерия: каждый завиток создан для захвата соуса. Название происходит от "fuso" — веретено. Традиционно фузилли делали, накручивая тесто на тонкую спицу. Сегодня это одна из самых любимых форм пасты в мире.',
+                recipes: [
+                    { name: 'Fusilli al Pesto',
+                        ingredients: ['Фузилли — 400 г', 'Базилик свежий — 50 г', 'Кедровые орехи — 40 г', 'Пармезан — 60 г', 'Чеснок — 2 зубчика', 'Оливковое масло extra virgin — 100 мл', 'Соль'],
+                        steps: ['В ступке или блендере разотрите базилик с чесноком и кедровыми орехами.', 'Добавьте тёртый пармезан, продолжая перемешивать.', 'Вливайте оливковое масло тонкой струйкой до получения пастообразной консистенции.', 'Сварите фузилли аль денте.', 'Смешайте горячую пасту с песто, добавьте 2 ст.л. воды от варки.', 'Подавайте с дополнительным пармезаном и кедровыми орешками.'] },
+                    { name: 'Fusilli con Pollo e Pesto Rosso',
+                        ingredients: ['Фузилли — 400 г', 'Куриное филе — 300 г', 'Вяленые томаты — 100 г', 'Руккола — 100 г', 'Песто красное — 3 ст.л.', 'Сливки — 100 мл', 'Оливковое масло — 40 мл'],
+                        steps: ['Нарежьте куриное филе полосками, обжарьте на оливковом масле до золотистой корочки.', 'Добавьте нарезанные вяленые томаты и красное песто, прогрейте 2 минуты.', 'Влейте сливки, перемешайте.', 'Сварите фузилли аль денте.', 'Смешайте пасту с соусом, добавьте рукколу.', 'Подавайте немедленно, пока руккола слегка не увяла от тепла.'] },
+                    { name: 'Fusilli alla Napoletana',
+                        ingredients: ['Фузилли — 400 г', 'Говяжий фарш — 300 г', 'Томаты в собственном соку — 500 г', 'Красное вино — 100 мл', 'Лук — 1 шт', 'Чеснок — 2 зубчика', 'Орегано сушёный — 1 ч.л.', 'Оливковое масло — 40 мл'],
+                        steps: ['Обжарьте мелко нарезанный лук и чеснок на оливковом масле.', 'Добавьте фарш, разбивая комочки, обжаривайте до румяной корочки.', 'Влейте вино, выпарите наполовину.', 'Добавьте томаты и орегано, тушите на медленном огне 30 минут.', 'Сварите фузилли аль денте.', 'Смешайте пасту с рагу, подавайте с тёртым пармезаном.'] }
+                ]
+            },
+            fettuccine: {
+                name: 'Феттучини',
+                nameEn: 'Fettuccine',
+                img: 'images/фетучини.png',
+                number: '04',
+                history: 'Феттучини — широкие плоские ленты из Лацио, особенно популярные в Риме. Слово означает "маленькие ленточки". В отличие от тальятелле, феттучини немного шире. Их подают с густыми сливочными соусами, которые отлично держатся на широкой поверхности. В США феттучини альфредо стал культовым блюдом.',
+                recipes: [
+                    { name: 'Fettuccine Alfredo',
+                        ingredients: ['Феттучини — 400 г', 'Сливочное масло — 100 г', 'Пармезан — 150 г', 'Мускатный орех — щепотка', 'Сливки 33% — 100 мл', 'Соль, перец'],
+                        steps: ['Растопите сливочное масло в глубокой сковороде.', 'Влейте сливки, прогрейте на слабом огне, не доводя до кипения.', 'Добавьте тёртый пармезан, постоянно помешивая, до полного растворения.', 'Сварите феттучини аль денте, сохранив 100 мл воды.', 'Переложите пасту в сковороду с соусом, добавьте мускатный орех.', 'Интенсивно перемешайте, при необходимости добавляя воду от варки.'] },
+                    { name: 'Fettuccine ai Funghi',
+                        ingredients: ['Феттучини — 400 г', 'Грибы порчини — 300 г', 'Лисички — 200 г', 'Сливки — 200 мл', 'Чеснок — 3 зубчика', 'Трюфельное масло — 1 ст.л.', 'Тимьян свежий', 'Пармезан — 50 г'],
+                        steps: ['Очистите грибы щёткой, нарежьте крупными кусками.', 'Обжарьте грибы на смеси сливочного и оливкового масла до золотистой корочки.', 'Добавьте раздавленный чеснок и тимьян, готовьте 2 минуты.', 'Влейте сливки, тушите 5 минут до загустения.', 'Сварите феттучини аль денте, смешайте с грибным соусом.', 'Сбрызните трюфельным маслом и посыпьте пармезаном.'] },
+                    { name: 'Fettuccine con Gamberi e Zucchine',
+                        ingredients: ['Феттучини — 400 г', 'Креветки очищенные — 300 г', 'Цукини — 2 шт', 'Чеснок — 3 зубчика', 'Лимон — 1 шт', 'Белое вино — 80 мл', 'Оливковое масло — 50 мл', 'Петрушка'],
+                        steps: ['Нарежьте цукини тонкими лентами с помощью овощечистки.', 'Обжарьте креветки с чесноком на оливковом масле по 1 минуте с каждой стороны.', 'Добавьте цукини и вино, готовьте 2 минуты.', 'Сварите феттучини аль денте.', 'Смешайте пасту с креветками и цукини, выжмите лимонный сок.', 'Подавайте с рубленой петрушкой и лимонной цедрой.'] }
+                ]
+            },
+            rigatoni: {
+                name: 'Ригатони',
+                nameEn: 'Rigatoni',
+                img: 'images/ригатони.png',
+                number: '05',
+                history: 'Ригатони — крупная ребристая паста из центральной Италии. Их название происходит от "rigato" (рифлёный). Широкая трубка с продольными бороздками создана, чтобы удерживать самые густые и мясистые соусы. Появились в римской кухне как идеальная пара для аматричаны и качо-э-пепе.',
+                recipes: [
+                    { name: 'Rigatoni all\'Amatriciana',
+                        ingredients: ['Ригатони — 400 г', 'Гуанчиале — 200 г', 'Томаты пелати — 500 г', 'Пекорино романо — 80 г', 'Перец чили — 1 шт', 'Белое вино — 100 мл', 'Оливковое масло'],
+                        steps: ['Нарежьте гуанчиале полосками, обжарьте на оливковом масле до хруста.', 'Добавьте измельчённый чили и вино, выпарите.', 'Добавьте размятые томаты, варите 15 минут на среднем огне.', 'Сварите ригатони аль денте.', 'Смешайте пасту с соусом, снимите с огня.', 'Посыпьте тёртым пекорино и подавайте.'] },
+                    { name: 'Rigatoni alla Gricia',
+                        ingredients: ['Ригатони — 400 г', 'Гуанчиале — 200 г', 'Пекорино романо — 100 г', 'Чёрный перец — 2 ч.л.', 'Соль'],
+                        steps: ['Нарежьте гуанчиале кубиками, обжарьте на среднем огне до золотистого цвета.', 'Сварите ригатони аль денте, сохранив 200 мл воды.', 'Снимите сковороду с огня, добавьте горячие ригатони.', 'Интенсивно перемешивая, добавляйте тёртый пекорино и воду от варки.', 'Продолжайте до получения кремового соуса, обволакивающего каждую трубку.', 'Подавайте с крупно смолотым чёрным перцем.'] },
+                    { name: 'Rigatoni con Melanzane',
+                        ingredients: ['Ригатони — 400 г', 'Баклажаны — 2 шт', 'Рикотта салата — 100 г', 'Томатный соус — 400 мл', 'Базилик свежий', 'Чеснок — 3 зубчика', 'Оливковое масло — 80 мл'],
+                        steps: ['Нарежьте баклажаны кубиками, посолите, оставьте на 15 минут, обсушите.', 'Обжарьте баклажаны на оливковом масле до золотистой корочки.', 'Добавьте чеснок и томатный соус, тушите 10 минут.', 'Сварите ригатони аль денте.', 'Смешайте пасту с баклажанным соусом, добавьте порванный базилик.', 'Подавайте с раскрошенной рикоттой салата сверху.'] }
+                ]
+            },
+            orecchiette: {
+                name: 'Орекьетте',
+                nameEn: 'Orecchiette',
+                img: 'images/орекьетте.png',
+                number: '06',
+                history: 'Орекьетте — "ушки" из Апулии, южный регион Италии. Эту пасту до сих пор делают вручную: маленький кусочек теста придавливают большим пальцем, создавая характерную форму с углублением. Каждое ушко уникально. Традиционно орекьетте подают с брокколи рабе — горьковатой зеленью, идеально контрастирующей с пастой.',
+                recipes: [
+                    { name: 'Orecchiette con Cime di Rapa',
+                        ingredients: ['Орекьетте — 400 г', 'Брокколи рабе — 400 г', 'Анчоусы в масле — 6 филе', 'Чеснок — 4 зубчика', 'Перец чили — 1 шт', 'Оливковое масло — 80 мл', 'Соль грубая'],
+                        steps: ['Отварите брокколи рабе в подсоленной воде 3 минуты, откиньте на дуршлаг, сохранив воду.', 'В той же воде сварите орекьетте аль денте.', 'Разогрейте оливковое масло, обжарьте чеснок и чили.', 'Добавьте анчоусы, раздавите ложкой до растворения.', 'Добавьте брокколи рабе, прогрейте 2 минуты.', 'Смешайте с пастой, подавайте с оливковым маслом.'] },
+                    { name: 'Orecchiette con Salsiccia e Ricotta',
+                        ingredients: ['Орекьетте — 400 г', 'Свиные колбаски — 300 г', 'Рикотта — 200 г', 'Шалфей свежий — 6 листьев', 'Пармезан — 50 г', 'Оливковое масло — 30 мл', 'Соль, перец'],
+                        steps: ['Извлеките мясо из колбасок, обжарьте на оливковом масле, разбивая комочки.', 'Добавьте листья шалфея, готовьте 1 минуту.', 'Сварите орекьетте аль денте, сохранив 150 мл воды.', 'Взбейте рикотту с 50 мл воды от варки до кремообразного состояния.', 'Смешайте горячую пасту с колбасой и кремом из рикотты.', 'Посыпьте пармезаном и подавайте.'] },
+                    { name: 'Orecchiette al Pomodoro e Burrata',
+                        ingredients: ['Орекьетте — 400 г', 'Помидоры черри — 400 г', 'Буррата — 200 г', 'Базилик свежий — 10 листьев', 'Чеснок — 2 зубчика', 'Оливковое масло extra virgin — 60 мл', 'Соль, перец'],
+                        steps: ['Разрежьте черри пополам, обжарьте на оливковом масле с чесноком 5 минут.', 'Сварите орекьетте аль денте.', 'Смешайте горячую пасту с томатами.', 'Порвите буррату руками на крупные куски.', 'Выложите буррату поверх пасты, дайте ей слегка растаять.', 'Посыпьте базиликом, полейте оливковым маслом и подавайте.'] }
+                ]
+            },
+            cavatappi: {
+                name: 'Каватаппи',
+                nameEn: 'Cavatappi',
+                img: 'images/каватаппи.png',
+                number: '07',
+                history: 'Каватаппи — винтовые макароны-трубки, родственники фузилли. Их название означает "штопор" — за характерную спиральную форму. Появились в XIX веке как результат экспериментов с экструзией теста. Каватаппи отлично работают с густыми соусами благодаря своей полой структуре и винтовым канавкам.',
+                recipes: [
+                    { name: 'Cavatappi al Forno',
+                        ingredients: ['Каватаппи — 400 г', 'Моцарелла — 250 г', 'Говяжий фарш — 300 г', 'Томатный соус — 500 мл', 'Пармезан — 80 г', 'Лук — 1 шт', 'Чеснок — 2 зубчика', 'Оливковое масло'],
+                        steps: ['Обжарьте лук с чесноком, добавьте фарш, обжаривайте до румяности.', 'Влейте томатный соус, тушите 15 минут.', 'Сварите каватаппи на 2 минуты меньше, чем указано на упаковке.', 'Смешайте пасту с соусом и половиной моцареллы.', 'Переложите в форму, сверху выложите оставшуюся моцареллу и пармезан.', 'Запекайте при 200°C 15 минут до золотистой корочки.'] },
+                    { name: 'Cavatappi con Broccoli e Gorgonzola',
+                        ingredients: ['Каватаппи — 400 г', 'Брокколи — 400 г', 'Горгонзола — 150 г', 'Грецкие орехи — 60 г', 'Сливки — 200 мл', 'Чеснок — 2 зубчика', 'Соль, перец'],
+                        steps: ['Разберите брокколи на соцветия, отварите 3 минуты в подсоленной воде.', 'В той же воде сварите каватаппи аль денте.', 'Раскрошите горгонзолу, смешайте со сливками и прогрейте на слабом огне до однородности.', 'Обжарьте грецкие орехи на сухой сковороде 2 минуты.', 'Смешайте пасту с брокколи и сырным соусом.', 'Посыпьте грецкими орехами и подавайте.'] },
+                    { name: 'Cavatappi all\'Arrabbiata',
+                        ingredients: ['Каватаппи — 400 г', 'Томаты пелати — 600 г', 'Чеснок — 4 зубчика', 'Перец чили — 2 шт', 'Петрушка — пучок', 'Оливковое масло — 60 мл', 'Соль'],
+                        steps: ['Разогрейте оливковое масло, обжарьте мелко нарезанный чеснок и чили.', 'Добавьте размятые томаты, варите 15 минут на сильном огне.', 'Приправьте солью и рубленой петрушкой.', 'Сварите каватаппи аль денте.', 'Смешайте пасту с "злым" соусом.', 'Подавайте с тёртым пармезаном и свежей петрушкой.'] }
+                ]
+            },
+            linguine: {
+                name: 'Лингвине',
+                nameEn: 'Linguine',
+                img: 'images/лингуине.png',
+                number: '08',
+                history: 'Лингвине — "язычки" из Лигурии. Это уплощённые спагетти: чуть шире и тоньше. Появились как компромисс между спагетти и феттучини. Идеальны для соусов на основе морепродуктов и оливкового масла. В отличие от спагетти, лингвине лучше сочетаются с лёгкими соусами, которые не стекают с плоской поверхности.',
+                recipes: [
+                    { name: 'Linguine alle Vongole',
+                        ingredients: ['Лингвине — 400 г', 'Моллюски вонголе — 800 г', 'Чеснок — 4 зубчика', 'Белое вино — 150 мл', 'Петрушка — пучок', 'Перец чили — 1 шт', 'Оливковое масло — 80 мл'],
+                        steps: ['Замочите вонголе в солёной воде на 30 минут, тщательно промойте.', 'Разогрейте масло с чесноком и чили до аромата.', 'Добавьте вонголе и вино, накройте крышкой, готовьте 5 минут.', 'Сварите лингвине аль денте.', 'Переложите пасту в сковороду с моллюсками, добавьте петрушку.', 'Подавайте немедленно, полив соком из сковороды.'] },
+                    { name: 'Linguine al Limone e Asparagi',
+                        ingredients: ['Лингвине — 400 г', 'Спаржа зелёная — 300 г', 'Лимон — 2 шт', 'Сливки — 150 мл', 'Пармезан — 60 г', 'Сливочное масло — 40 г', 'Соль, перец'],
+                        steps: ['Срежьте жёсткие концы спаржи, нарежьте стебли по диагонали.', 'Бланшируйте спаржу в подсоленной воде 2 минуты, переложите в ледяную воду.', 'Растопите сливочное масло, добавьте цедру и сок одного лимона.', 'Влейте сливки, прогрейте, добавьте пармезан.', 'Сварите лингвине аль денте, смешайте с соусом и спаржей.', 'Подавайте с дольками лимона и дополнительным пармезаном.'] },
+                    { name: 'Linguine con Gamberi e Zafferano',
+                        ingredients: ['Лингвине — 400 г', 'Креветки тигровые — 350 г', 'Шафран — щепотка', 'Фенхель — 1 шт', 'Сливки — 200 мл', 'Белое вино — 100 мл', 'Оливковое масло — 50 мл'],
+                        steps: ['Замочите шафран в 2 ст.л. горячей воды на 10 минут.', 'Нарежьте фенхель тонкими ломтиками, обжарьте на оливковом масле 5 минут.', 'Добавьте креветки, обжарьте по 1 минуте с каждой стороны.', 'Влейте вино и шафрановую воду, выпарите наполовину.', 'Добавьте сливки, прогрейте 2 минуты.', 'Сварите лингвине, смешайте с соусом и подавайте.'] }
+                ]
+            },
+            ravioli: {
+                name: 'Равиоли',
+                nameEn: 'Ravioli',
+                img: 'images/равиоли.png',
+                number: '09',
+                history: 'Равиоли — древнейшая форма фаршированной пасты. Упоминания о ней встречаются в рукописях XIV века. Слово "ravioli" происходит от староитальянского "raviola" — маленькая репка. Традиционно равиоли начиняют рикоттой, шпинатом, мясом или тыквой. Каждая область Италии имеет свои секреты начинки и подачи.',
+                recipes: [
+                    { name: 'Ravioli di Ricotta e Spinaci',
+                        ingredients: ['Равиоли с рикоттой и шпинатом — 500 г', 'Сливочное масло — 80 г', 'Шалфей свежий — 10 листьев', 'Пармезан — 80 г', 'Мускатный орех — щепотка', 'Соль, перец'],
+                        steps: ['Растопите сливочное масло в сотейнике до появления орехового аромата.', 'Добавьте листья шалфея, жарьте 30 секунд.', 'Сварите равиоли в подсоленной воде — они готовы через 2-3 минуты после всплытия.', 'Аккуратно переложите равиоли шумовкой в сковороду с маслом.', 'Посыпьте мускатным орехом и пармезаном.', 'Подавайте немедленно, полив оставшимся маслом с шалфеем.'] },
+                    { name: 'Ravioli alla Zucca',
+                        ingredients: ['Равиоли с тыквой — 500 г', 'Сливочное масло — 80 г', 'Шалфей — 8 листьев', 'Амаретти — 6 шт', 'Пармезан — 60 г', 'Мускатный орех', 'Соль'],
+                        steps: ['Раскрошите амаретти в крошку.', 'Растопите сливочное масло с шалфеем.', 'Сварите равиоли в подсоленной воде — 2-3 минуты.', 'Переложите равиоли в сковороду с маслом, аккуратно перемешайте.', 'Посыпьте крошкой амаретти, мускатным орехом и пармезаном.', 'Подавайте с хрустящим шалфеем сверху.'] },
+                    { name: 'Ravioli di Carne al Sugo',
+                        ingredients: ['Равиоли мясные — 500 г', 'Томатный соус — 400 мл', 'Говяжий фарш — 200 г', 'Морковь — 1 шт', 'Сельдерей — 1 стебель', 'Красное вино — 100 мл', 'Пармезан — 80 г', 'Оливковое масло'],
+                        steps: ['Обжарьте мелко нарезанные морковь, сельдерей и лук на оливковом масле.', 'Добавьте фарш, обжаривайте до румяности.', 'Влейте вино, выпарите, добавьте томатный соус.', 'Тушите на слабом огне 30 минут.', 'Сварите равиоли, откиньте на дуршлаг.', 'Подавайте равиоли с мясным соусом и тёртым пармезаном.'] }
+                ]
+            },
+            penne: {
+                name: 'Пенне',
+                nameEn: 'Penne',
+                img: 'images/пенне.png',
+                number: '10',
+                history: 'Пенне — "перья", одна из самых популярных форм пасты. Отличаются косым срезом под 45°, напоминающим перьевую ручку. Появились в XIX веке в Кампании. Рифлёная поверхность (penne rigate) лучше удерживает соус. Пенне универсальны: подходят и для горячих блюд, и для холодных паста-салатов.',
+                recipes: [
+                    { name: 'Penne all\'Arrabbiata',
+                        ingredients: ['Пенне — 400 г', 'Томаты пелати — 600 г', 'Чеснок — 4 зубчика', 'Перец чили — 2 шт', 'Петрушка — пучок', 'Оливковое масло — 60 мл', 'Соль'],
+                        steps: ['Разогрейте оливковое масло, обжарьте мелко нарезанный чеснок и чили.', 'Добавьте размятые томаты, варите 15 минут на сильном огне.', 'Приправьте солью и рубленой петрушкой.', 'Сварите пенне аль денте.', 'Смешайте пасту с соусом.', 'Подавайте с тёртым пармезаном.'] },
+                    { name: 'Penne alla Vodka',
+                        ingredients: ['Пенне — 400 г', 'Томатный соус — 400 мл', 'Водка — 80 мл', 'Сливки 20% — 200 мл', 'Лук репчатый — 1 шт', 'Пармезан — 60 г', 'Оливковое масло — 30 мл', 'Соль, перец'],
+                        steps: ['Обжарьте мелко нарезанный лук на оливковом масле до прозрачности.', 'Влейте водку, дайте алкоголю выпариться 1 минуту.', 'Добавьте томатный соус, тушите 10 минут.', 'Влейте сливки, прогрейте, не доводя до кипения.', 'Сварите пенне аль денте, смешайте с соусом.', 'Подавайте с тёртым пармезаном и свежемолотым перцем.'] },
+                    { name: 'Penne con Pollo e Pesto',
+                        ingredients: ['Пенне — 400 г', 'Куриное филе — 300 г', 'Песто зелёный — 4 ст.л.', 'Вяленые томаты — 80 г', 'Кедровые орехи — 40 г', 'Оливковое масло — 30 мл', 'Соль, перец'],
+                        steps: ['Нарежьте куриное филе кубиками, обжарьте на оливковом масле до готовности.', 'Добавьте нарезанные вяленые томаты и 2 ст.л. песто, прогрейте.', 'Сварите пенне аль денте, сохранив 100 мл воды.', 'Смешайте пасту с курицей и оставшимся песто.', 'При необходимости добавьте воду от варки для сочности.', 'Посыпьте кедровыми орехами и подавайте.'] }
+                ]
+            },
+            tagliatelle: {
+                name: 'Тальятелле',
+                nameEn: 'Tagliatelle',
+                img: 'images/тальятелле.png',
+                number: '11',
+                history: 'Тальятелле — классическая паста Болоньи. Широкие ленты из яичного теста, нарезанные вручную. По легенде, тальятелле были созданы в 1487 году в честь свадьбы Лукреции Борджиа: их ширина (8 мм) символизировала счастье. Тальятелле — идеальная пара для болоньезе и других мясных соусов.',
+                recipes: [
+                    { name: 'Tagliatelle al Ragù',
+                        ingredients: ['Тальятелле — 400 г', 'Говядина — 500 г', 'Панчетта — 100 г', 'Томатная паста — 2 ст.л.', 'Красное вино — 200 мл', 'Молоко — 100 мл', 'Морковь — 1 шт', 'Сельдерей — 1 стебель', 'Лук — 1 шт', 'Оливковое масло'],
+                        steps: ['Мелко нарежьте лук, морковь, сельдерей и панчетту. Обжарьте на оливковом масле.', 'Добавьте говяжий фарш, обжаривайте на сильном огне до румяной корочки.', 'Влейте вино, выпарите наполовину.', 'Добавьте томатную пасту и молоко, убавьте огонь до минимума.', 'Томите под крышкой 3-4 часа, при необходимости подливая воду.', 'Сварите тальятелле, подавайте с рагу и тёртым пармезаном.'] },
+                    { name: 'Tagliatelle ai Funghi Porcini',
+                        ingredients: ['Тальятелле — 400 г', 'Грибы порчини — 400 г', 'Сливки — 200 мл', 'Чеснок — 3 зубчика', 'Трюфельное масло — 1 ст.л.', 'Тимьян — 3 веточки', 'Пармезан — 60 г', 'Сливочное масло — 40 г'],
+                        steps: ['Очистите грибы, нарежьте крупными ломтиками.', 'Обжарьте на сильном огне на смеси сливочного и оливкового масла до золотистого цвета.', 'Добавьте раздавленный чеснок и тимьян, готовьте 1 минуту.', 'Влейте сливки, убавьте огонь, тушите 5 минут.', 'Сварите тальятелле аль денте, смешайте с грибным соусом.', 'Сбрызните трюфельным маслом и посыпьте пармезаном.'] },
+                    { name: 'Tagliatelle al Tartufo',
+                        ingredients: ['Тальятелле — 400 г', 'Чёрный трюфель — 30 г', 'Сливочное масло — 100 г', 'Пармезан — 80 г', 'Соль, перец'],
+                        steps: ['Растопите сливочное масло на слабом огне.', 'Сварите тальятелле аль денте, сохранив 100 мл воды.', 'Переложите пасту в сковороду с маслом, интенсивно перемешайте.', 'Добавьте тёртый пармезан и немного воды от варки для кремообразности.', 'Натрите половину трюфеля прямо в пасту, перемешайте.', 'Подавайте с оставшимися тонкими слайсами трюфеля сверху.'] }
+                ]
+            },
+            pappardelle: {
+                name: 'Паппарделе',
+                nameEn: 'Pappardelle',
+                img: 'images/паппарделе.png',
+                number: '12',
+                history: 'Паппарделе — самые широкие ленты среди итальянской пасты (до 3 см). Родом из Тосканы. Название происходит от "pappare" — жадно есть. Действительно, их широкие ленты созданы для объёмных, насыщенных соусов из дичи. Паппарделе подают с кабаном, олениной или зайцем — блюда охотничьей кухни.',
+                recipes: [
+                    { name: 'Pappardelle al Cinghiale',
+                        ingredients: ['Паппарделе — 400 г', 'Мясо кабана — 600 г', 'Томаты пелати — 500 г', 'Красное вино — 250 мл', 'Розмарин — 2 веточки', 'Можжевельник — 5 ягод', 'Лук — 1 шт', 'Оливковое масло'],
+                        steps: ['Нарежьте мясо кабана кубиками, замаринуйте в вине с можжевельником на 2 часа.', 'Обжарьте мясо на оливковом масле партиями до румяной корочки.', 'В той же сковороде обжарьте лук, верните мясо.', 'Влейте маринад, добавьте томаты и розмарин.', 'Томите на медленном огне 2-2.5 часа до мягкости мяса.', 'Сварите паппарделе, подавайте с рагу из кабана и тёртым пармезаном.'] },
+                    { name: 'Pappardelle ai Funghi',
+                        ingredients: ['Паппарделе — 400 г', 'Лесные грибы — 500 г', 'Сливки — 200 мл', 'Чеснок — 3 зубчика', 'Петрушка — пучок', 'Тимьян — 3 веточки', 'Пармезан — 60 г', 'Оливковое масло'],
+                        steps: ['Очистите грибы, нарежьте крупными кусками.', 'Обжарьте на сильном огне на оливковом масле до золотистого цвета.', 'Добавьте чеснок и тимьян, готовьте 1 минуту.', 'Влейте сливки, тушите 7 минут до загустения.', 'Сварите паппарделе аль денте, смешайте с грибами.', 'Посыпьте рубленой петрушкой и пармезаном.'] },
+                    { name: 'Pappardelle con Ragu d\'Anatra',
+                        ingredients: ['Паппарделе — 400 г', 'Утиные ножки — 2 шт', 'Томаты пелати — 400 г', 'Красное вино — 150 мл', 'Апельсин — 1 шт', 'Лук — 1 шт', 'Розмарин', 'Оливковое масло'],
+                        steps: ['Обжарьте утиные ножки на оливковом масле до золотистой корочки со всех сторон.', 'Добавьте мелко нарезанный лук и цедру апельсина, обжарьте.', 'Влейте вино и сок апельсина, выпарите наполовину.', 'Добавьте томаты и розмарин, томите под крышкой 1.5 часа.', 'Разберите мясо на волокна, верните в соус.', 'Сварите паппарделе, подавайте с утиным рагу.'] }
+                ]
+            },
+            cannelloni: {
+                name: 'Каннеллони',
+                nameEn: 'Cannelloni',
+                img: 'images/каннеллони.png',
+                number: '13',
+                history: 'Каннеллони — большие трубки для фарширования, родом из Кампании. Слово означает "большие тростники". В отличие от большинства видов пасты, каннеллони предварительно отваривают, затем наполняют начинкой и запекают под соусом. Традиционные начинки: мясо, рикотта со шпинатом или морепродукты.',
+                recipes: [
+                    { name: 'Cannelloni Ricotta e Spinaci',
+                        ingredients: ['Каннеллони — 250 г', 'Рикотта — 400 г', 'Шпинат — 300 г', 'Пармезан — 80 г', 'Мускатный орех — щепотка', 'Соус бешамель — 500 мл', 'Соль, перец'],
+                        steps: ['Бланшируйте шпинат 2 минуты, отожмите, мелко порубите.', 'Смешайте шпинат с рикоттой, пармезаном, мускатным орехом, солью и перцем.', 'Наполните каннеллони начинкой с помощью кондитерского мешка.', 'Выложите слой бешамеля в форму, сверху — каннеллони.', 'Залейте оставшимся бешамелем, посыпьте пармезаном.', 'Запекайте при 180°C 35 минут до золотистой корочки.'] },
+                    { name: 'Cannelloni alla Bolognese',
+                        ingredients: ['Каннеллони — 250 г', 'Говяжий фарш — 400 г', 'Томатный соус — 500 мл', 'Лук — 1 шт', 'Чеснок — 2 зубчика', 'Белое вино — 100 мл', 'Соус бешамель — 300 мл', 'Пармезан — 80 г'],
+                        steps: ['Обжарьте лук с чесноком, добавьте фарш, обжаривайте до румяности.', 'Влейте вино, выпарите, добавьте половину томатного соуса, тушите 20 минут.', 'Наполните каннеллони мясной начинкой.', 'Выложите в форму оставшийся томатный соус, сверху каннеллони.', 'Залейте бешамелем, посыпьте пармезаном.', 'Запекайте при 180°C 35-40 минут.'] },
+                    { name: 'Cannelloni di Pesce',
+                        ingredients: ['Каннеллони — 250 г', 'Лосось — 200 г', 'Креветки — 200 г', 'Рикотта — 250 г', 'Укроп — пучок', 'Лимон — 1 шт', 'Соус бешамель — 400 мл', 'Соль, перец'],
+                        steps: ['Нарежьте лосось мелкими кубиками, креветки — кусочками.', 'Смешайте рыбу с рикоттой, укропом, лимонной цедрой, солью и перцем.', 'Наполните каннеллони рыбной начинкой.', 'Выложите в форму, залейте бешамелем.', 'Посыпьте пармезаном и запекайте 30 минут при 180°C.', 'Подавайте с долькой лимона и свежим укропом.'] }
+                ]
+            },
+            conchiglie: {
+                name: 'Конкилье',
+                nameEn: 'Conchiglie',
+                img: 'images/конкилье.png',
+                number: '14',
+                history: 'Конкилье — паста-ракушки родом из Сицилии. Их форма напоминает морские раковины. Большие конкилье (conchiglioni) используют для фарширования, маленькие — для супов и запеканок. Ребристая поверхность и полость внутри идеально удерживают соус. Конкилье — дань уважения морским традициям итальянской кухни.',
+                recipes: [
+                    { name: 'Conchiglioni Ripieni',
+                        ingredients: ['Конкильони — 300 г', 'Рикотта — 350 г', 'Шпинат — 250 г', 'Пармезан — 80 г', 'Томатный соус — 500 мл', 'Моцарелла — 200 г', 'Мускатный орех', 'Соль, перец'],
+                        steps: ['Сварите конкильони на 2 минуты меньше указанного времени, откиньте на дуршлаг.', 'Бланшируйте шпинат, отожмите, смешайте с рикоттой, мускатным орехом и половиной пармезана.', 'Наполните каждую ракушку начинкой.', 'Выложите томатный соус в форму, сверху — фаршированные ракушки.', 'Посыпьте моцареллой и оставшимся пармезаном.', 'Запекайте 20 минут при 190°C до расплавления сыра.'] },
+                    { name: 'Conchiglie alla Puttanesca',
+                        ingredients: ['Конкилье — 400 г', 'Томаты пелати — 500 г', 'Маслины — 100 г', 'Каперсы — 40 г', 'Анчоусы — 6 филе', 'Чеснок — 3 зубчика', 'Перец чили — 1 шт', 'Оливковое масло — 60 мл'],
+                        steps: ['Разогрейте оливковое масло, обжарьте чеснок и чили.', 'Добавьте анчоусы, раздавите ложкой до растворения.', 'Добавьте размятые томаты, маслины и каперсы.', 'Варите на среднем огне 15 минут.', 'Сварите конкилье аль денте.', 'Смешайте пасту с соусом, подавайте с петрушкой.'] },
+                    { name: 'Conchiglie con Gamberi e Zucchine',
+                        ingredients: ['Конкилье — 400 г', 'Креветки очищенные — 300 г', 'Цукини — 2 шт', 'Чеснок — 3 зубчика', 'Белое вино — 80 мл', 'Лимон — 1 шт', 'Оливковое масло — 50 мл', 'Петрушка'],
+                        steps: ['Нарежьте цукини полукружиями, обжарьте на оливковом масле 3 минуты.', 'Добавьте креветки и чеснок, обжарьте по 1 минуте с каждой стороны.', 'Влейте вино и лимонный сок, готовьте 2 минуты.', 'Сварите конкилье аль денте.', 'Смешайте пасту с креветками и цукини.', 'Посыпьте рубленой петрушкой и подавайте.'] }
+                ]
+            },
+            maccheroni: {
+                name: 'Макароны',
+                nameEn: 'Maccheroni',
+                img: 'images/макароны.jpg',
+                number: '15',
+                history: 'Макароны (маккерони) — общее название для короткой трубчатой пасты, но в узком смысле это изогнутые трубочки родом из Неаполя. Именно маккерони стали первой пастой, которую начали сушить для длительного хранения. В XVIII веке Неаполь был мировым центром производства макарон. Это паста, с которой началась история итальянской кухни за пределами Италии.',
+                recipes: [
+                    { name: 'Maccheroni al Forno',
+                        ingredients: ['Макароны — 400 г', 'Говяжий фарш — 300 г', 'Томатный соус — 500 мл', 'Моцарелла — 250 г', 'Пармезан — 80 г', 'Лук — 1 шт', 'Сливочное масло — 30 г', 'Соль, перец'],
+                        steps: ['Обжарьте лук на сливочном масле, добавьте фарш, обжаривайте до румяности.', 'Влейте томатный соус, тушите 15 минут.', 'Сварите макароны на 2 минуты меньше указанного времени.', 'Смешайте макароны с мясным соусом и половиной моцареллы.', 'Выложите в форму, сверху — оставшуюся моцареллу и пармезан.', 'Запекайте 20 минут при 200°C до хрустящей золотистой корочки.'] },
+                    { name: 'Maccheroni con Salsiccia',
+                        ingredients: ['Макароны — 400 г', 'Свиные колбаски — 300 г', 'Фенхель — 1 шт', 'Томаты пелати — 400 г', 'Красное вино — 100 мл', 'Чеснок — 2 зубчика', 'Оливковое масло — 30 мл', 'Пармезан'],
+                        steps: ['Извлеките мясо из колбасок, обжарьте на оливковом масле, разбивая комочки.', 'Добавьте тонко нарезанный фенхель и чеснок, готовьте 5 минут.', 'Влейте вино, выпарите.', 'Добавьте размятые томаты, тушите 20 минут.', 'Сварите макароны аль денте.', 'Смешайте с соусом, подавайте с пармезаном.'] },
+                    { name: 'Maccheroni alla Pastore',
+                        ingredients: ['Макароны — 400 г', 'Баранина — 400 г', 'Горошек зелёный — 200 г', 'Томаты пелати — 400 г', 'Пекорино — 80 г', 'Лук — 1 шт', 'Белое вино — 100 мл', 'Оливковое масло'],
+                        steps: ['Нарежьте баранину мелкими кубиками, обжарьте на оливковом масле партиями.', 'Добавьте мелко нарезанный лук, обжарьте до прозрачности.', 'Влейте вино, выпарите, добавьте томаты.', 'Тушите на слабом огне 45 минут до мягкости мяса.', 'Добавьте горошек за 5 минут до готовности.', 'Сварите макароны, подавайте с рагу и тёртым пекорино.'] }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('modalOverlay');
+            const modal = document.getElementById('modalContent');
+            const closeBtn = document.getElementById('modalClose');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalTitleEn = document.getElementById('modalTitleEn');
+            const modalHistory = document.getElementById('modalHistory');
+            const recipesList = document.getElementById('recipesList');
+
+            function openModal(key) {
+                const data = pastaData[key];
+                if (!data) return;
+
+                modalImage.src = data.img;
+                modalImage.alt = data.name;
+                modalTitle.textContent = data.name;
+                modalTitleEn.textContent = data.nameEn;
+                modalHistory.textContent = data.history;
+
+                recipesList.innerHTML = data.recipes.map((r, ri) => `
+                    <div class="recipe-item" data-index="${ri}">
+                        <p class="recipe-name">${r.name}<span class="recipe-toggle">+</span></p>
+                        <div class="recipe-body">
+                            <div class="recipe-body-inner">
+                                <p class="recipe-label">Ингредиенты</p>
+                                <ul class="ingredients-list">
+                                    ${r.ingredients.map(i => `<li>${i}</li>`).join('')}
+                                </ul>
+                                <p class="recipe-label">Приготовление</p>
+                                <ol class="steps-list">
+                                    ${r.steps.map(s => `<li>${s}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                recipesList.querySelectorAll('.recipe-item').forEach(el => {
+                    el.addEventListener('click', () => toggleRecipe(el));
+                });
+
+                overlay.classList.add('active');
+                document.body.classList.add('modal-open');
+                modal.scrollTop = 0;
+            }
+
+            function toggleRecipe(el) {
+                el.classList.toggle('active');
+                const body = el.querySelector('.recipe-body');
+                if (el.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                } else {
+                    body.style.maxHeight = '0';
+                }
+            }
+
+            function closeModal() {
+                overlay.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+
+            document.querySelectorAll('.pasta-card').forEach(card => {
+                const nameEl = card.querySelector('.card-name-en');
+                if (!nameEl) return;
+                const nameEn = nameEl.textContent.toLowerCase();
+                const keyMap = {
+                    'spaghetti': 'spaghetti',
+                    'farfalle': 'farfalle',
+                    'fusilli': 'fusilli',
+                    'fettuccine': 'fettuccine',
+                    'rigatoni': 'rigatoni',
+                    'orecchiette': 'orecchiette',
+                    'cavatappi': 'cavatappi',
+                    'linguine': 'linguine',
+                    'ravioli': 'ravioli',
+                    'penne': 'penne',
+                    'tagliatelle': 'tagliatelle',
+                    'pappardelle': 'pappardelle',
+                    'cannelloni': 'cannelloni',
+                    'conchiglie': 'conchiglie',
+                    'maccheroni': 'maccheroni'
+                };
+                const key = keyMap[nameEn] || nameEn;
+
+                card.addEventListener('click', () => openModal(key));
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.dataset.delay || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, parseInt(delay));
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('.pasta-card').forEach(card => {
+                if (window.matchMedia('(hover: hover)').matches) {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        const rotateX = (y - centerY) / 20;
+                        const rotateY = (centerX - x) / 20;
+                        
+                        card.style.transform = `translateY(-10px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = '';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
