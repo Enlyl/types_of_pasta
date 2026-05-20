@@ -969,7 +969,7 @@
             <p class="hero-tagline">Изделия различной формы из высушенного теста</p>
         </div>
         <div class="scroll-indicator">
-            <span>Исследовать</span>
+            <span>Листайте вниз, чтобы изучать</span>
             <div class="scroll-line"></div>
         </div>
     </section>
@@ -989,7 +989,7 @@
         </div>
 
         <div class="cards-grid">
-            <article class="pasta-card fade-in" data-delay="0">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1006,7 +1006,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="100">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1023,7 +1023,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="200">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1040,7 +1040,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="300">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1057,7 +1057,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="400">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1074,7 +1074,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="500">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1091,7 +1091,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="600">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1108,7 +1108,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="700">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1125,7 +1125,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="800">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1142,7 +1142,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="900">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1159,7 +1159,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="1000">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1176,7 +1176,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="1100">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1193,7 +1193,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="1200">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1210,7 +1210,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="1300">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1227,7 +1227,7 @@
                 </div>
             </article>
 
-            <article class="pasta-card fade-in" data-delay="1400">
+            <article class="pasta-card fade-in" >
                 <div class="card-corner top-left"></div>
                 <div class="card-corner top-right"></div>
                 <div class="card-corner bottom-left"></div>
@@ -1661,10 +1661,7 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const delay = entry.target.dataset.delay || 0;
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, parseInt(delay));
+                        entry.target.classList.add('visible');
                         observer.unobserve(entry.target);
                     }
                 });
