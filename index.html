@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'Arte della Pasta</title>
+    <title>L'arte di essere una pasta</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%231a1612'/%3E%3Cpath d='M18 28c0-4 6-14 14-14s14 10 14 14-6 14-14 14S18 32 18 28z' fill='%23c9a962' opacity='0.9'/%3E%3Cpath d='M22 28c0-3 4-10 10-10s10 7 10 10-4 10-10 10S22 31 22 28z' fill='%23e8d5a3' opacity='0.7'/%3E%3Cpath d='M27 26c0-1.5 2-5 5-5s5 3.5 5 5-2 5-5 5-5-3.5-5-5z' fill='%231a1612'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -87,21 +87,38 @@
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 12vw, 10rem);
+            font-size: clamp(3.2rem, 10vw, 9rem);
             font-weight: 400;
-            letter-spacing: 0.05em;
-            line-height: 1;
+            letter-spacing: 0.03em;
+            line-height: 1.05;
             margin-bottom: 1rem;
             opacity: 0;
             animation: fadeUp 1s ease 0.2s forwards;
+            color: var(--cream);
         }
 
-        .hero h1 span {
+        /* first line — big serif, cream */
+        .hero h1 .title-line-1 {
             display: block;
+            font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 0.6em;
-            color: var(--gold-light);
-            letter-spacing: 0.2em;
+            font-weight: 400;
+            color: var(--cream);
+            letter-spacing: 0.04em;
+        }
+
+        /* second line — smaller, gold, wide tracking, light weight */
+        .hero h1 .title-line-2 {
+            display: block;
+            font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 0.38em;
+            color: var(--gold);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-top: 0.5em;
+            opacity: 0.85;
         }
 
         .hero-tagline {
@@ -683,6 +700,65 @@
             }
         }
 
+
+        /* ── LANGUAGE SWITCHER ── */
+        .lang-switcher {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            opacity: 0.18;
+            transition: opacity 0.4s ease;
+        }
+
+        .lang-switcher:hover {
+            opacity: 1;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            border-left: 1px solid rgba(201, 169, 98, 0.25);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            padding: 5px 0 5px 10px;
+            cursor: pointer;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            opacity: 0.5;
+            text-transform: uppercase;
+            text-align: left;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            color: var(--gold);
+            opacity: 0.9;
+            border-color: rgba(201, 169, 98, 0.5);
+        }
+
+        .lang-btn.active {
+            color: var(--gold);
+            opacity: 1;
+            border-color: var(--gold);
+        }
+
+        /* fade text on switch */
+        [data-i18n],
+        [data-i18n-card-name],
+        [data-i18n-card-desc] {
+            transition: opacity 0.25s ease;
+        }
+        body.lang-switching [data-i18n],
+        body.lang-switching [data-i18n-card-name],
+        body.lang-switching [data-i18n-card-desc] {
+            opacity: 0;
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -960,32 +1036,41 @@
     </style>
 </head>
 <body>
+    <!-- LANGUAGE SWITCHER -->
+    <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru">РУС</button>
+        <button class="lang-btn" data-lang="uk">УКР</button>
+        <button class="lang-btn" data-lang="en">ENG</button>
+        <button class="lang-btn" data-lang="it">ITA</button>
+    </div>
+
     <section class="hero">
         <div class="hero-decoration"></div>
         <div class="hero-content">
-            <p class="hero-subtitle">Settimana della Moda Italiana</p>
-            <h1>L'Arte della Pasta <span>Dried Artisanal Beauty</span></h1>
+            <p class="hero-subtitle" data-i18n="hero-subtitle">cibo alla moda italiana</p>
+            <h1>
+                <span class="title-line-1" data-i18n="hero-title-1">L'arte di essere una pasta</span>
+                <span class="title-line-2" data-i18n="hero-title-2">Raffinatezza e perfezione del gusto</span>
+            </h1>
             <div class="hero-line"></div>
-            <p class="hero-tagline">Изделия различной формы из высушенного теста</p>
+            <p class="hero-tagline" data-i18n="hero-tagline">Изделия различной формы из высушенного теста</p>
         </div>
         <div class="scroll-indicator">
-            <span>Листайте вниз, чтобы изучать</span>
+            <span data-i18n="scroll-hint">Листайте вниз, чтобы изучать</span>
             <div class="scroll-line"></div>
         </div>
     </section>
 
     <section class="intro">
         <p class="intro-text fade-in">
-            В каждом изгибе макаронины — <em>веками накопленная мудрость</em> итальянских мастериц. 
-            Каждая форма создана не случайно: она рождена для определённого соуса, 
-            для особого способа подачи, для <em>совершенства во рту</em>.
+            <span data-i18n="intro-text">В каждом изгибе макаронины — <em>веками накопленная мудрость</em> итальянских мастериц. Каждая форма создана не случайно: она рождена для определённого соуса, для особого способа подачи, для <em>совершенства во рту</em>.</span>
         </p>
     </section>
 
     <section class="collection">
         <div class="collection-header fade-in">
-            <h2>Коллекция Forme</h2>
-            <p>Пятнадцать шедевров итальянского макаронного искусства</p>
+            <h2 data-i18n="collection-title">Коллекция Forme</h2>
+            <p data-i18n="collection-sub">Пятнадцать шедевров итальянского макаронного искусства</p>
         </div>
 
         <div class="cards-grid">
@@ -999,10 +1084,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">01</span>
-                    <h3 class="card-name">Спагетти</h3>
+                    <h3 class="card-name" data-i18n-card-name="Спагетти">Спагетти</h3>
                     <p class="card-name-en">Spaghetti</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Королева итальянской пасты. Длинные, тонкие цилиндры совершенны для болоньезе и карбонары. Их история — история самой Италии.</p>
+                    <p class="card-description" data-i18n-card-desc="Королева итальянской пасты. Длинные, тонкие цилиндры совершенны для болоньезе и карбонары. Их история — история самой Италии.">Королева итальянской пасты. Длинные, тонкие цилиндры совершенны для болоньезе и карбонары. Их история — история самой Италии.</p>
                 </div>
             </article>
 
@@ -1016,10 +1101,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">02</span>
-                    <h3 class="card-name">Фарфалле</h3>
+                    <h3 class="card-name" data-i18n-card-name="Фарфалле">Фарфалле</h3>
                     <p class="card-name-en">Farfalle</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Бабочки из теста. Их изгибы созданы для того, чтобы удерживать капли соуса в каждой складке. Идеальны с легкими сливочными соусами.</p>
+                    <p class="card-description" data-i18n-card-desc="Бабочки из теста. Их изгибы созданы для того, чтобы удерживать капли соуса в каждой складке. Идеальны с легкими сливочными соусами.">Бабочки из теста. Их изгибы созданы для того, чтобы удерживать капли соуса в каждой складке. Идеальны с легкими сливочными соусами.</p>
                 </div>
             </article>
 
@@ -1033,10 +1118,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">03</span>
-                    <h3 class="card-name">Фузилли</h3>
+                    <h3 class="card-name" data-i18n-card-name="Фузилли">Фузилли</h3>
                     <p class="card-name-en">Fusilli</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Винтовые спирали, созданные природой для захвата соуса. Каждый оборот — маленькое произведение искусства песто и томатов.</p>
+                    <p class="card-description" data-i18n-card-desc="Винтовые спирали, созданные природой для захвата соуса. Каждый оборот — маленькое произведение искусства песто и томатов.">Винтовые спирали, созданные природой для захвата соуса. Каждый оборот — маленькое произведение искусства песто и томатов.</p>
                 </div>
             </article>
 
@@ -1050,10 +1135,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">04</span>
-                    <h3 class="card-name">Феттучини</h3>
+                    <h3 class="card-name" data-i18n-card-name="Феттучини">Феттучини</h3>
                     <p class="card-name-en">Fettuccine</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Ленточки шириной в палец. Их нежная текстура раскрывается в классической альфредо, обволакивая каждый кусочек пармезана.</p>
+                    <p class="card-description" data-i18n-card-desc="Ленточки шириной в палец. Их нежная текстура раскрывается в классической альфредо, обволакивая каждый кусочек пармезана.">Ленточки шириной в палец. Их нежная текстура раскрывается в классической альфредо, обволакивая каждый кусочек пармезана.</p>
                 </div>
             </article>
 
@@ -1067,10 +1152,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">05</span>
-                    <h3 class="card-name">Ригатони</h3>
+                    <h3 class="card-name" data-i18n-card-name="Ригатони">Ригатони</h3>
                     <p class="card-name-en">Rigatoni</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Толстые рифлёные трубки. Их рубцы — ловушки для густых мясных соусов. Итальянский характер в каждом укусе.</p>
+                    <p class="card-description" data-i18n-card-desc="Толстые рифлёные трубки. Их рубцы — ловушки для густых мясных соусов. Итальянский характер в каждом укусе.">Толстые рифлёные трубки. Их рубцы — ловушки для густых мясных соусов. Итальянский характер в каждом укусе.</p>
                 </div>
             </article>
 
@@ -1084,10 +1169,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">06</span>
-                    <h3 class="card-name">Орекьетте</h3>
+                    <h3 class="card-name" data-i18n-card-name="Орекьетте">Орекьетте</h3>
                     <p class="card-name-en">Orecchiette</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Ушки, вылепленные вручную. Каждое — уникально, как отпечаток пальца. Созданы для брокколи рабе и оливкового масла.</p>
+                    <p class="card-description" data-i18n-card-desc="Ушки, вылепленные вручную. Каждое — уникально, как отпечаток пальца. Созданы для брокколи рабе и оливкового масла.">Ушки, вылепленные вручную. Каждое — уникально, как отпечаток пальца. Созданы для брокколи рабе и оливкового масла.</p>
                 </div>
             </article>
 
@@ -1101,10 +1186,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">07</span>
-                    <h3 class="card-name">Каватаппи</h3>
+                    <h3 class="card-name" data-i18n-card-name="Каватаппи">Каватаппи</h3>
                     <p class="card-name-en">Cavatappi</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Винтовые макароны-трубки. Игривые изгибы приглашают соус войти в каждый завиток. Весёлые и неотразимые.</p>
+                    <p class="card-description" data-i18n-card-desc="Винтовые макароны-трубки. Игривые изгибы приглашают соус войти в каждый завиток. Весёлые и неотразимые.">Винтовые макароны-трубки. Игривые изгибы приглашают соус войти в каждый завиток. Весёлые и неотразимые.</p>
                 </div>
             </article>
 
@@ -1118,10 +1203,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">08</span>
-                    <h3 class="card-name">Лингвине</h3>
+                    <h3 class="card-name" data-i18n-card-name="Лингвине">Лингвине</h3>
                     <p class="card-name-en">Linguine</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Язычки — уплощённые длинные макароны. Их плоская форма идеальна для морепродуктов и лимонного соуса с анчоусами.</p>
+                    <p class="card-description" data-i18n-card-desc="Язычки — уплощённые длинные макароны. Их плоская форма идеальна для морепродуктов и лимонного соуса с анчоусами.">Язычки — уплощённые длинные макароны. Их плоская форма идеальна для морепродуктов и лимонного соуса с анчоусами.</p>
                 </div>
             </article>
 
@@ -1135,10 +1220,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">09</span>
-                    <h3 class="card-name">Равиоли</h3>
+                    <h3 class="card-name" data-i18n-card-name="Равиоли">Равиоли</h3>
                     <p class="card-name-en">Ravioli</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Маленькие подушечки с начинкой. В каждом квадратике — сокровенность: рикотта, шпинат, грибы или мясо. Целое искусство в одном укусе.</p>
+                    <p class="card-description" data-i18n-card-desc="Маленькие подушечки с начинкой. В каждом квадратике — сокровенность: рикотта, шпинат, грибы или мясо. Целое искусство в одном укусе.">Маленькие подушечки с начинкой. В каждом квадратике — сокровенность: рикотта, шпинат, грибы или мясо. Целое искусство в одном укусе.</p>
                 </div>
             </article>
 
@@ -1152,10 +1237,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">10</span>
-                    <h3 class="card-name">Пенне</h3>
+                    <h3 class="card-name" data-i18n-card-name="Пенне">Пенне</h3>
                     <p class="card-name-en">Penne</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Перья, срезанные под углом 45°. Их скошенные края — идеальные ловушки для густых томатных соусов. Солнечная Италия в каждом кусочке.</p>
+                    <p class="card-description" data-i18n-card-desc="Перья, срезанные под углом 45°. Их скошенные края — идеальные ловушки для густых томатных соусов. Солнечная Италия в каждом кусочке.">Перья, срезанные под углом 45°. Их скошенные края — идеальные ловушки для густых томатных соусов. Солнечная Италия в каждом кусочке.</p>
                 </div>
             </article>
 
@@ -1169,10 +1254,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">11</span>
-                    <h3 class="card-name">Тальятелле</h3>
+                    <h3 class="card-name" data-i18n-card-name="Тальятелле">Тальятелле</h3>
                     <p class="card-name-en">Tagliatelle</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Широкие ленты, нарезанные вручную. Их текстура — классика болонской кухни. Созревшие яйца и мука — вот их секрет.</p>
+                    <p class="card-description" data-i18n-card-desc="Широкие ленты, нарезанные вручную. Их текстура — классика болонской кухни. Созревшие яйца и мука — вот их секрет.">Широкие ленты, нарезанные вручную. Их текстура — классика болонской кухни. Созревшие яйца и мука — вот их секрет.</p>
                 </div>
             </article>
 
@@ -1186,10 +1271,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">12</span>
-                    <h3 class="card-name">Паппарделе</h3>
+                    <h3 class="card-name" data-i18n-card-name="Паппарделе">Паппарделе</h3>
                     <p class="card-name-en">Pappardelle</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Очень широкие ленты — объятия для соуса. Рождены для дикой лесной говядины и трюфельных сливочных соусов Тосканы.</p>
+                    <p class="card-description" data-i18n-card-desc="Очень широкие ленты — объятия для соуса. Рождены для дикой лесной говядины и трюфельных сливочных соусов Тосканы.">Очень широкие ленты — объятия для соуса. Рождены для дикой лесной говядины и трюфельных сливочных соусов Тосканы.</p>
                 </div>
             </article>
 
@@ -1203,10 +1288,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">13</span>
-                    <h3 class="card-name">Каннеллони</h3>
+                    <h3 class="card-name" data-i18n-card-name="Каннеллони">Каннеллони</h3>
                     <p class="card-name-en">Cannelloni</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Большие трубки, созданные для фарширования. Внутрь кладут мясо, рикотту, шпинат — и запекают до золотой корочки.</p>
+                    <p class="card-description" data-i18n-card-desc="Большие трубки, созданные для фарширования. Внутрь кладут мясо, рикотту, шпинат — и запекают до золотой корочки.">Большие трубки, созданные для фарширования. Внутрь кладут мясо, рикотту, шпинат — и запекают до золотой корочки.</p>
                 </div>
             </article>
 
@@ -1220,10 +1305,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">14</span>
-                    <h3 class="card-name">Конкилье</h3>
+                    <h3 class="card-name" data-i18n-card-name="Конкилье">Конкилье</h3>
                     <p class="card-name-en">Conchiglie</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Раковины, созданные морями Сицилии. Их полость — храм для сливочных соусов. Каждая ракушка — миниатюрный сосуд наслаждения.</p>
+                    <p class="card-description" data-i18n-card-desc="Раковины, созданные морями Сицилии. Их полость — храм для сливочных соусов. Каждая ракушка — миниатюрный сосуд наслаждения.">Раковины, созданные морями Сицилии. Их полость — храм для сливочных соусов. Каждая ракушка — миниатюрный сосуд наслаждения.</p>
                 </div>
             </article>
 
@@ -1237,10 +1322,10 @@
                 </div>
                 <div class="card-content">
                     <span class="card-number">15</span>
-                    <h3 class="card-name">Макароны</h3>
+                    <h3 class="card-name" data-i18n-card-name="Макароны">Макароны</h3>
                     <p class="card-name-en">Maccheroni</p>
                     <div class="card-divider"></div>
-                    <p class="card-description">Короткие изогнутые трубочки — сердце неаполитанской кухни. Их форма идеальна для сытных запеканок и молодых соусов.</p>
+                    <p class="card-description" data-i18n-card-desc="Короткие изогнутые трубочки — сердце неаполитанской кухни. Их форма идеальна для сытных запеканок и молодых соусов.">Короткие изогнутые трубочки — сердце неаполитанской кухни. Их форма идеальна для сытных запеканок и молодых соусов.</p>
                 </div>
             </article>
         </div>
@@ -1249,11 +1334,7 @@
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-logo">La Pasta</p>
-            <p class="footer-text">
-                От полуострова Салento до равнин Пьемонта,<br>
-                от побережья Амальфи до холмов Тосканы —<br>
-                каждая форма рассказывает свою историю.
-            </p>
+            <p class="footer-text" data-i18n="footer-text">От полуострова Салento до равнин Пьемонта,<br>от побережья Амальфи до холмов Тосканы —<br>каждая форма рассказывает свою историю.</p>
             <span class="footer-accent">Buon Appetito, Milano</span>
         </div>
     </footer>
@@ -1271,11 +1352,11 @@
                 </div>
             </div>
             <div class="modal-section">
-                <h3>История</h3>
+                <h3 data-i18n="modal-history-title">История</h3>
                 <p class="modal-history" id="modalHistory"></p>
             </div>
             <div class="modal-section">
-                <h3>Рецепты</h3>
+                <h3 data-i18n="modal-recipes-title">Рецепты</h3>
                 <div class="recipes-list" id="recipesList"></div>
             </div>
         </div>
@@ -1565,13 +1646,38 @@
             const modalHistory = document.getElementById('modalHistory');
             const recipesList = document.getElementById('recipesList');
 
+            // track current pasta key for re-render on lang switch
+            let currentPasta = null;
+
+            function getCurrentLang() {
+                return localStorage.getItem('pasta-lang') || 'ru';
+            }
+
             function openModal(key) {
+                currentPasta = key;
+                renderModal(key, getCurrentLang());
+                overlay.classList.add('active');
+                document.body.classList.add('modal-open');
+                modal.scrollTop = 0;
+            }
+
+            function renderModal(key, lang) {
                 const data = pastaData[key];
                 if (!data) return;
+                const t = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[lang]) ? TRANSLATIONS[lang] : TRANSLATIONS['ru'];
+                const ingLabel  = t['modal-ingredients'] || 'Ингредиенты:';
+                const stepLabel = t['modal-steps']       || 'Приготовление:';
 
                 modalImage.src = data.img;
-                modalImage.alt = data.name;
-                modalTitle.textContent = data.name;
+                modalImage.alt = data.nameEn;
+
+                // title: use translated card name if available
+                let displayName = data.name;
+                const ruName = data.name; // always stored in ru
+                if (t.cards && t.cards[ruName]) {
+                    displayName = t.cards[ruName].name;
+                }
+                modalTitle.textContent = displayName;
                 modalTitleEn.textContent = data.nameEn;
                 modalHistory.textContent = data.history;
 
@@ -1580,11 +1686,11 @@
                         <p class="recipe-name">${r.name}<span class="recipe-toggle">+</span></p>
                         <div class="recipe-body">
                             <div class="recipe-body-inner">
-                                <p class="recipe-label">Ингредиенты</p>
+                                <p class="recipe-label">${ingLabel}</p>
                                 <ul class="ingredients-list">
                                     ${r.ingredients.map(i => `<li>${i}</li>`).join('')}
                                 </ul>
-                                <p class="recipe-label">Приготовление</p>
+                                <p class="recipe-label">${stepLabel}</p>
                                 <ol class="steps-list">
                                     ${r.steps.map(s => `<li>${s}</li>`).join('')}
                                 </ol>
@@ -1596,10 +1702,6 @@
                 recipesList.querySelectorAll('.recipe-item').forEach(el => {
                     el.addEventListener('click', () => toggleRecipe(el));
                 });
-
-                overlay.classList.add('active');
-                document.body.classList.add('modal-open');
-                modal.scrollTop = 0;
             }
 
             function toggleRecipe(el) {
@@ -1692,5 +1794,203 @@
             });
         });
     </script>
+
+    <script>
+    // ─── i18n translations ───────────────────────────────────────────────────
+    const TRANSLATIONS = {
+        ru: {
+            "hero-subtitle":      "cibo alla moda italiana",
+            "hero-title-1":       "L'arte di essere una pasta",
+            "hero-title-2":       "Raffinatezza e perfezione del gusto",
+            "hero-tagline":       "Изделия различной формы из высушенного теста",
+            "scroll-hint":        "Листайте вниз, чтобы изучать",
+            "intro-text":         'В каждом изгибе макаронины — <em>веками накопленная мудрость</em> итальянских мастериц. Каждая форма создана не случайно: она рождена для определённого соуса, для особого способа подачи, для <em>совершенства во рту</em>.',
+            "collection-title":   "Коллекция Forme",
+            "collection-sub":     "Пятнадцать шедевров итальянского макаронного искусства",
+            "footer-text":        "От полуострова Саленто до равнин Пьемонта,<br>от побережья Амальфи до холмов Тосканы —<br>каждая форма рассказывает свою историю.",
+            "modal-history-title":"История",
+            "modal-recipes-title":"Рецепты",
+            "modal-ingredients":  "Ингредиенты:",
+            "modal-steps":        "Приготовление:",
+            cards: {
+                "Спагетти":    { name: "Спагетти",   desc: "Королева итальянской пасты. Длинные, тонкие цилиндры совершенны для болоньезе и карбонары. Их история — история самой Италии." },
+                "Фарфалле":    { name: "Фарфалле",   desc: "Бабочки из теста. Их изгибы созданы для того, чтобы удерживать капли соуса в каждой складке. Идеальны с легкими сливочными соусами." },
+                "Фузилли":     { name: "Фузилли",    desc: "Винтовые спирали, созданные природой для захвата соуса. Каждый оборот — маленькое произведение искусства песто и томатов." },
+                "Феттучини":   { name: "Феттучини",  desc: "Ленточки шириной в палец. Их нежная текстура раскрывается в классической альфредо, обволакивая каждый кусочек пармезана." },
+                "Ригатони":    { name: "Ригатони",   desc: "Толстые рифлёные трубки. Их рубцы — ловушки для густых мясных соусов. Итальянский характер в каждом укусе." },
+                "Орекьетте":   { name: "Орекьетте",  desc: "Ушки, вылепленные вручную. Каждое — уникально, как отпечаток пальца. Созданы для брокколи рабе и оливкового масла." },
+                "Каватаппи":   { name: "Каватаппи",  desc: "Винтовые макароны-трубки. Игривые изгибы приглашают соус войти в каждый завиток. Весёлые и неотразимые." },
+                "Лингвине":    { name: "Лингвине",   desc: "Язычки — уплощённые длинные макароны. Их плоская форма идеальна для морепродуктов и лимонного соуса с анчоусами." },
+                "Равиоли":     { name: "Равиоли",    desc: "Маленькие подушечки с начинкой. В каждом квадратике — сокровенность: рикотта, шпинат, грибы или мясо. Целое искусство в одном укусе." },
+                "Пенне":       { name: "Пенне",      desc: "Перья, срезанные под углом 45°. Их скошенные края — идеальные ловушки для густых томатных соусов. Солнечная Италия в каждом кусочке." },
+                "Тальятелле":  { name: "Тальятелле", desc: "Широкие ленты, нарезанные вручную. Их текстура — классика болонской кухни. Созревшие яйца и мука — вот их секрет." },
+                "Паппарделе":  { name: "Паппарделе", desc: "Очень широкие ленты — объятия для соуса. Рождены для дикой лесной говядины и трюфельных сливочных соусов Тосканы." },
+                "Каннеллони":  { name: "Каннеллони", desc: "Большие трубки, созданные для фарширования. Внутрь кладут мясо, рикотту, шпинат — и запекают до золотой корочки." },
+                "Конкилье":    { name: "Конкилье",   desc: "Раковины, созданные морями Сицилии. Их полость — храм для сливочных соусов. Каждая ракушка — миниатюрный сосуд наслаждения." },
+                "Макароны":    { name: "Макароны",   desc: "Короткие изогнутые трубочки — сердце неаполитанской кухни. Их форма идеальна для сытных запеканок и молодых соусов." },
+            }
+        },
+        uk: {
+            "hero-subtitle":      "cibo alla moda italiana",
+            "hero-title-1":       "L'arte di essere una pasta",
+            "hero-title-2":       "Raffinatezza e perfezione del gusto",
+            "hero-tagline":       "Вироби різної форми із висушеного тіста",
+            "scroll-hint":        "Гортайте вниз, щоб вивчати",
+            "intro-text":         'У кожному вигині макаронини — <em>мудрість, накопичена віками</em> італійських майстринь. Кожна форма створена не випадково: вона народжена для певного соусу, для особливого способу подачі, для <em>досконалості на смак</em>.',
+            "collection-title":   "Колекція Forme",
+            "collection-sub":     "П'ятнадцять шедеврів італійського макаронного мистецтва",
+            "footer-text":        "Від півострова Саленто до рівнин П'ємонту,<br>від узбережжя Амальфі до пагорбів Тоскани —<br>кожна форма розповідає свою історію.",
+            "modal-history-title":"Історія",
+            "modal-recipes-title":"Рецепти",
+            "modal-ingredients":  "Інгредієнти:",
+            "modal-steps":        "Приготування:",
+            cards: {
+                "Спагетти":    { name: "Спагеті",     desc: "Королева італійської пасти. Довгі, тонкі циліндри ідеальні для болоньєзе та карбонари. Їхня історія — це історія самої Італії." },
+                "Фарфалле":    { name: "Фарфалле",    desc: "Метелики з тіста. Їхні вигини створені для того, щоб утримувати краплі соусу в кожній складці. Ідеальні з легкими вершковими соусами." },
+                "Фузилли":     { name: "Фузіллі",     desc: "Гвинтові спіралі, створені природою для захоплення соусу. Кожен оборот — маленький шедевр песто і томатів." },
+                "Феттучини":   { name: "Феттучіні",   desc: "Стрічки завширшки з палець. Їхня ніжна текстура розкривається в класичному альфредо, обволікаючи кожен шматочок пармезану." },
+                "Ригатони":    { name: "Рігатоні",    desc: "Товсті рифлені трубки. Їхні борозни — пастки для густих м'ясних соусів. Італійський характер у кожному укусі." },
+                "Орекьетте":   { name: "Ореккєтте",   desc: "Вушка, зліплені вручну. Кожне — унікальне, як відбиток пальця. Створені для броколі рабе та оливкової олії." },
+                "Каватаппи":   { name: "Кавататппі",  desc: "Гвинтові макарони-трубки. Грайливі вигини запрошують соус увійти в кожен завиток. Веселі та невпинні." },
+                "Лингвине":    { name: "Лінгвіне",    desc: "Язички — сплощені довгі макарони. Їхня плоска форма ідеальна для морепродуктів і лимонного соусу з анчоусами." },
+                "Равиоли":     { name: "Равіолі",     desc: "Маленькі подушечки з начинкою. У кожному квадратику — таємниця: рікота, шпинат, гриби або м'ясо. Ціле мистецтво в одному укусі." },
+                "Пенне":       { name: "Пенне",       desc: "Пера, зрізані під кутом 45°. Їхні скошені краї — ідеальні пастки для густих томатних соусів. Сонячна Італія в кожному шматочку." },
+                "Тальятелле":  { name: "Тальятелле",  desc: "Широкі стрічки, нарізані вручну. Їхня текстура — класика болонської кухні. Дозрілі яйця і борошно — ось їхній секрет." },
+                "Паппарделе":  { name: "Паппарделле", desc: "Дуже широкі стрічки — обійми для соусу. Народжені для дикої лісової яловичини і трюфельних вершкових соусів Тоскани." },
+                "Каннеллони":  { name: "Канеллоні",   desc: "Великі трубки, створені для фарширування. Всередину кладуть м'ясо, рікоту, шпинат — і запікають до золотистої скоринки." },
+                "Конкилье":    { name: "Конкільє",    desc: "Мушлі, натхненні морями Сицилії. Їхня порожнина — храм для вершкових соусів. Кожна мушля — мініатюрна посудина насолоди." },
+                "Макароны":    { name: "Макарони",    desc: "Короткі вигнуті трубочки — серце неаполітанської кухні. Їхня форма ідеальна для ситних запіканок і молодих соусів." },
+            }
+        },
+        en: {
+            "hero-subtitle":      "cibo alla moda italiana",
+            "hero-title-1":       "L'arte di essere una pasta",
+            "hero-title-2":       "Raffinatezza e perfezione del gusto",
+            "hero-tagline":       "Shapes of dried dough perfected over centuries",
+            "scroll-hint":        "Scroll down to explore",
+            "intro-text":         'In every curve of pasta — <em>centuries of wisdom</em> from Italian artisans. Each shape is no accident: born for a particular sauce, a particular way of serving, for <em>perfection on the palate</em>.',
+            "collection-title":   "The Forme Collection",
+            "collection-sub":     "Fifteen masterworks of Italian pasta artistry",
+            "footer-text":        "From the Salento peninsula to the plains of Piedmont,<br>from the Amalfi coast to the hills of Tuscany —<br>every shape tells its own story.",
+            "modal-history-title":"History",
+            "modal-recipes-title":"Recipes",
+            "modal-ingredients":  "Ingredients:",
+            "modal-steps":        "Method:",
+            cards: {
+                "Спагетти":    { name: "Spaghetti",    desc: "The queen of Italian pasta. Long, thin cylinders perfect for bolognese and carbonara. Their history is the history of Italy itself." },
+                "Фарфалле":    { name: "Farfalle",      desc: "Bow-tie pasta from Lombardy. Their pinched folds are designed to hold every drop of sauce. Perfect with light cream sauces." },
+                "Фузилли":     { name: "Fusilli",       desc: "Corkscrew spirals built by nature to capture sauce. Each twist — a small masterwork of pesto and tomatoes." },
+                "Феттучини":   { name: "Fettuccine",    desc: "Finger-width ribbons whose delicate texture shines in classic Alfredo, coating every sliver of parmesan." },
+                "Ригатони":    { name: "Rigatoni",      desc: "Thick ridged tubes whose grooves are traps for hearty meat sauces. Italian character in every bite." },
+                "Орекьетте":   { name: "Orecchiette",   desc: "Little ears shaped by hand. Each one unique as a fingerprint. Made for broccoli rabe and olive oil." },
+                "Каватаппи":   { name: "Cavatappi",     desc: "Corkscrew tubes whose playful curves invite sauce into every loop. Fun, irresistible, unforgettable." },
+                "Лингвине":    { name: "Linguine",      desc: "Little tongues — flattened long pasta whose flat shape is ideal for seafood and lemon-anchovy sauce." },
+                "Равиоли":     { name: "Ravioli",       desc: "Stuffed pillows holding treasure: ricotta, spinach, mushrooms or meat. A whole art form in a single bite." },
+                "Пенне":       { name: "Penne",         desc: "Quill-cut at 45°, their angled edges are perfect traps for rich tomato sauces. Sunny Italy in every piece." },
+                "Тальятелле":  { name: "Tagliatelle",   desc: "Wide ribbons cut by hand. Their texture is the cornerstone of Bolognese cuisine — ripe eggs and flour, nothing more." },
+                "Паппарделе":  { name: "Pappardelle",   desc: "Very wide ribbons — an embrace for sauce. Born for wild boar ragù and truffle cream sauces of Tuscany." },
+                "Каннеллони":  { name: "Cannelloni",    desc: "Large tubes made for stuffing. Fill with meat, ricotta, spinach — then bake to a golden crust." },
+                "Конкилье":    { name: "Conchiglie",    desc: "Shells inspired by Sicilian seas. Their cavity is a sanctuary for creamy sauces. Each shell — a miniature vessel of pleasure." },
+                "Макароны":    { name: "Maccheroni",    desc: "Short curved tubes — the heart of Neapolitan cuisine. Their shape is ideal for hearty baked dishes and young sauces." },
+            }
+        },
+        it: {
+            "hero-subtitle":      "cibo alla moda italiana",
+            "hero-title-1":       "L'arte di essere una pasta",
+            "hero-title-2":       "Raffinatezza e perfezione del gusto",
+            "hero-tagline":       "Forme di pasta secca modellate nei secoli",
+            "scroll-hint":        "Scorri verso il basso per esplorare",
+            "intro-text":         'In ogni curva della pasta — <em>la saggezza di secoli</em> delle artigiane italiane. Ogni forma è nata con uno scopo: per un certo sugo, per un certo modo di servire, per la <em>perfezione in bocca</em>.',
+            "collection-title":   "La Collezione Forme",
+            "collection-sub":     "Quindici capolavori dell'arte pastaia italiana",
+            "footer-text":        "Dal Salento alle pianure del Piemonte,<br>dalla costa amalfitana alle colline della Toscana —<br>ogni forma racconta la sua storia.",
+            "modal-history-title":"Storia",
+            "modal-recipes-title":"Ricette",
+            "modal-ingredients":  "Ingredienti:",
+            "modal-steps":        "Preparazione:",
+            cards: {
+                "Спагетти":    { name: "Spaghetti",    desc: "La regina della pasta italiana. Lunghi cilindri sottili, perfetti per il bolognese e la carbonara. La loro storia è la storia dell'Italia." },
+                "Фарфалле":    { name: "Farfalle",      desc: "Farfalle di pasta dalla Lombardia. Le loro pieghe trattengono ogni goccia di sugo. Ideali con sughi cremosi leggeri." },
+                "Фузилли":     { name: "Fusilli",       desc: "Spirali a vite nate per catturare il sugo. Ogni giro è un piccolo capolavoro di pesto e pomodori." },
+                "Феттучини":   { name: "Fettuccine",    desc: "Nastri larghi un dito. La loro texture delicata si rivela nella classica Alfredo, avvolgendo ogni scaglia di parmigiano." },
+                "Ригатони":    { name: "Rigatoni",      desc: "Tubi rigati e spessi. Le loro righe sono trappole per i sughi di carne. Il carattere italiano in ogni morso." },
+                "Орекьетте":   { name: "Orecchiette",   desc: "Orecchie modellate a mano. Ognuna unica come un'impronta digitale. Nate per le cime di rapa e l'olio d'oliva." },
+                "Каватаппи":   { name: "Cavatappi",     desc: "Tubi a spirale il cui gioco di curve invita il sugo in ogni ricciolo. Allegri e irresistibili." },
+                "Лингвине":    { name: "Linguine",      desc: "Piccole lingue — pasta lunga e piatta, perfetta per i frutti di mare e il sugo al limone con le acciughe." },
+                "Равиоли":     { name: "Ravioli",       desc: "Cuscinetti ripieni di tesori: ricotta, spinaci, funghi o carne. Tutta un'arte in un solo morso." },
+                "Пенне":       { name: "Penne",         desc: "Tagliate a 45°, i loro bordi obliqui sono trappole perfette per i sughi di pomodoro. L'Italia solare in ogni boccone." },
+                "Тальятелле":  { name: "Tagliatelle",   desc: "Nastri larghi tagliati a mano — la classica cucina bolognese. Uova mature e farina: questo è il loro segreto." },
+                "Паппарделе":  { name: "Pappardelle",   desc: "Nastri larghissimi — un abbraccio per il sugo. Nate per il cinghiale e i sughi al tartufo della Toscana." },
+                "Каннеллони":  { name: "Cannelloni",    desc: "Grandi tubi per il ripieno. Si farciscono con carne, ricotta, spinaci — e si cuociono fino alla crosticina dorata." },
+                "Конкилье":    { name: "Conchiglie",    desc: "Gusci ispirati ai mari di Sicilia. La loro cavità è un tempio per i sughi cremosi. Ogni conchiglia — un vaso di piacere." },
+                "Макароны":    { name: "Maccheroni",    desc: "Tubetti corti e incurvati — il cuore della cucina napoletana. La loro forma è ideale per le pastiere e i sughi giovani." },
+            }
+        }
+    };
+
+    // ─── apply language ───────────────────────────────────────────────────────
+    function applyLang(lang) {
+        const t = TRANSLATIONS[lang];
+        if (!t) return;
+
+        document.body.classList.add('lang-switching');
+
+        setTimeout(() => {
+            // static keys
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+
+            // card names
+            document.querySelectorAll('h3.card-name[data-i18n-card-name]').forEach(el => {
+                const orig = el.getAttribute('data-i18n-card-name');
+                const ru   = TRANSLATIONS.ru.cards[orig];
+                // find by ru key
+                if (ru && t.cards[orig]) el.textContent = t.cards[orig].name;
+            });
+
+            // card descriptions
+            document.querySelectorAll('p.card-description[data-i18n-card-desc]').forEach(el => {
+                // match by ru text stored in attribute
+                const origDesc = el.getAttribute('data-i18n-card-desc');
+                // find which pasta this is via reverse lookup
+                for (const [ruName, ruData] of Object.entries(TRANSLATIONS.ru.cards)) {
+                    if (ruData.desc === origDesc && t.cards[ruName]) {
+                        el.textContent = t.cards[ruName].desc;
+                        break;
+                    }
+                }
+            });
+
+            // modal section headers (if modal is open re-render)
+            if (typeof currentPasta !== 'undefined' && currentPasta) {
+                renderModal(currentPasta, lang);
+            }
+
+            document.body.classList.remove('lang-switching');
+            localStorage.setItem('pasta-lang', lang);
+        }, 200);
+    }
+
+    // ─── lang buttons ─────────────────────────────────────────────────────────
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyLang(btn.dataset.lang);
+        });
+    });
+
+    // restore saved language
+    const savedLang = localStorage.getItem('pasta-lang') || 'ru';
+    if (savedLang !== 'ru') {
+        document.querySelectorAll('.lang-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.lang === savedLang);
+        });
+        applyLang(savedLang);
+    }
+    </script>
+
 </body>
 </html>
