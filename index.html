@@ -293,6 +293,13 @@
             mix-blend-mode: normal;
         }
 
+        /* touch devices — no hover, show color immediately */
+        @media (hover: none) {
+            .card-image {
+                mix-blend-mode: normal;
+            }
+        }
+
         .card-corner {
             position: absolute;
             width: 30px;
@@ -660,7 +667,7 @@
 
             .pasta-card:hover .card-image {
                 transform: none;
-                mix-blend-mode: luminosity;
+                mix-blend-mode: normal;
             }
 
             .pasta-card:hover .card-name {
