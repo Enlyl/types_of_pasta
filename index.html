@@ -759,6 +759,318 @@
             opacity: 0;
         }
 
+
+        /* ── QUIZ ── */
+        .quiz-trigger-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .quiz-trigger {
+            background: transparent;
+            border: 1px solid rgba(201, 169, 98, 0.35);
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 3rem;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.4s ease, border-color 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quiz-trigger::before,
+        .quiz-trigger::after {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+            transition: width 0.4s ease, opacity 0.4s ease;
+        }
+
+        .quiz-trigger:hover {
+            color: var(--cream);
+            border-color: rgba(201, 169, 98, 0.7);
+        }
+
+        .quiz-trigger:hover::before,
+        .quiz-trigger:hover::after {
+            width: 36px;
+            opacity: 1;
+        }
+
+        /* overlay */
+        .quiz-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 8, 6, 0.96);
+            z-index: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .quiz-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .quiz-panel {
+            width: min(680px, 92vw);
+            max-height: 92vh;
+            overflow-y: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 3rem 2.5rem 3.5rem;
+        }
+
+        .quiz-panel::-webkit-scrollbar { display: none; }
+
+        .quiz-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: transparent;
+            border: none;
+            color: rgba(201, 169, 98, 0.4);
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.5rem;
+            transition: color 0.3s;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .quiz-close:hover { color: var(--gold); }
+
+        .quiz-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            width: 100%;
+        }
+
+        .quiz-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: rgba(201, 169, 98, 0.5);
+            text-transform: uppercase;
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            max-width: 320px;
+            height: 1px;
+            background: rgba(201, 169, 98, 0.12);
+            position: relative;
+        }
+
+        .quiz-progress-fill {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .quiz-score-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: rgba(201, 169, 98, 0.4);
+        }
+
+        /* image */
+        .quiz-image-frame {
+            width: min(280px, 70vw);
+            height: min(280px, 70vw);
+            border: 1px solid rgba(201, 169, 98, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: rgba(26, 22, 18, 0.6);
+            flex-shrink: 0;
+        }
+
+        .quiz-image-frame::before,
+        .quiz-image-frame::after {
+            content: '';
+            position: absolute;
+            width: 14px; height: 14px;
+        }
+
+        .quiz-image-frame::before {
+            top: -1px; left: -1px;
+            border-top: 1px solid var(--gold);
+            border-left: 1px solid var(--gold);
+        }
+
+        .quiz-image-frame::after {
+            bottom: -1px; right: -1px;
+            border-bottom: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
+
+        .quiz-pasta-img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+            transition: opacity 0.3s ease;
+        }
+
+        .quiz-question-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.35em;
+            color: rgba(245, 240, 232, 0.4);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* answers grid */
+        .quiz-answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+            width: 100%;
+        }
+
+        .quiz-answer {
+            background: transparent;
+            border: 1px solid rgba(201, 169, 98, 0.18);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            letter-spacing: 0.05em;
+            padding: 0.85rem 1.2rem;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .quiz-answer:hover:not(:disabled) {
+            border-color: rgba(201, 169, 98, 0.5);
+            background: rgba(201, 169, 98, 0.04);
+        }
+
+        .quiz-answer:disabled { cursor: default; }
+
+        .quiz-answer.correct {
+            border-color: rgba(120, 180, 130, 0.6);
+            background: rgba(100, 160, 110, 0.1);
+            color: rgba(180, 230, 190, 0.95);
+        }
+
+        .quiz-answer.wrong {
+            border-color: rgba(180, 80, 90, 0.5);
+            background: rgba(160, 60, 70, 0.08);
+            color: rgba(220, 140, 150, 0.85);
+        }
+
+        /* next button */
+        .quiz-next {
+            background: transparent;
+            border: 1px solid rgba(201, 169, 98, 0.3);
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            padding: 0.8rem 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.3s, color 0.3s;
+        }
+
+        .quiz-next.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .quiz-next:hover {
+            border-color: var(--gold);
+            color: var(--cream);
+        }
+
+        /* result screen */
+        .quiz-result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .quiz-result.visible { display: flex; }
+
+        .quiz-result-score {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 15vw, 7rem);
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(201, 169, 98, 0.6);
+            line-height: 1;
+        }
+
+        .quiz-result-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            color: rgba(201, 169, 98, 0.55);
+            text-transform: uppercase;
+        }
+
+        .quiz-result-msg {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: rgba(245, 240, 232, 0.65);
+            max-width: 340px;
+            line-height: 1.7;
+        }
+
+        .quiz-restart {
+            background: transparent;
+            border: 1px solid rgba(201, 169, 98, 0.3);
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            padding: 0.9rem 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .quiz-restart:hover {
+            border-color: var(--gold);
+            color: var(--cream);
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1331,6 +1643,13 @@
         </div>
     </section>
 
+    <!-- QUIZ TRIGGER -->
+    <div class="quiz-trigger-wrap">
+        <button class="quiz-trigger" id="quizTrigger">
+            Проверить знания
+        </button>
+    </div>
+
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-logo">La Pasta</p>
@@ -1338,6 +1657,41 @@
             <span class="footer-accent">Buon Appetito, Milano</span>
         </div>
     </footer>
+
+
+    <!-- QUIZ OVERLAY -->
+    <div class="quiz-overlay" id="quizOverlay">
+        <div class="quiz-panel" id="quizPanel">
+            <button class="quiz-close" id="quizClose">&#x2715;</button>
+
+            <!-- progress / meta -->
+            <div class="quiz-meta">
+                <span class="quiz-label" id="quizLabelText">Форма пасты</span>
+                <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div>
+                </div>
+                <span class="quiz-score-display" id="quizScoreDisplay">0 / 0</span>
+            </div>
+
+            <!-- question screen -->
+            <div id="quizQuestion" style="display:flex;flex-direction:column;align-items:center;gap:1.8rem;width:100%">
+                <div class="quiz-image-frame">
+                    <img class="quiz-pasta-img" id="quizImg" src="" alt="">
+                </div>
+                <p class="quiz-question-text">Как называется эта форма?</p>
+                <div class="quiz-answers" id="quizAnswers"></div>
+                <button class="quiz-next" id="quizNext">Следующий вопрос</button>
+            </div>
+
+            <!-- result screen -->
+            <div class="quiz-result" id="quizResult">
+                <span class="quiz-result-score" id="quizResultScore">0/0</span>
+                <span class="quiz-result-label">Ваш результат</span>
+                <p class="quiz-result-msg" id="quizResultMsg"></p>
+                <button class="quiz-restart" id="quizRestart">Пройти ещё раз</button>
+            </div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="modalContent">
@@ -1991,6 +2345,189 @@
         applyLang(savedLang);
     }
     </script>
+
+
+
+    <script>
+    // ── QUIZ ─────────────────────────────────────────────────────────────────
+    (function init() {
+        // DOM is already parsed since this script is at end of body
+        var PASTA_LIST = [
+            { name: 'Спагетти',   nameEn: 'Spaghetti',   img: 'images/спагетти.png' },
+            { name: 'Фарфалле',   nameEn: 'Farfalle',    img: 'images/фарфалле.png' },
+            { name: 'Фузилли',    nameEn: 'Fusilli',     img: 'images/фузилли.png' },
+            { name: 'Феттучини',  nameEn: 'Fettuccine',  img: 'images/фетучини.png' },
+            { name: 'Ригатони',   nameEn: 'Rigatoni',    img: 'images/ригатони.png' },
+            { name: 'Орекьетте',  nameEn: 'Orecchiette', img: 'images/орекьетте.png' },
+            { name: 'Каватаппи',  nameEn: 'Cavatappi',   img: 'images/каватаппи.png' },
+            { name: 'Лингвине',   nameEn: 'Linguine',    img: 'images/лингуине.png' },
+            { name: 'Равиоли',    nameEn: 'Ravioli',     img: 'images/равиоли.png' },
+            { name: 'Пенне',      nameEn: 'Penne',       img: 'images/пенне.png' },
+            { name: 'Тальятелле', nameEn: 'Tagliatelle', img: 'images/тальятелле.png' },
+            { name: 'Паппарделе', nameEn: 'Pappardelle', img: 'images/паппарделе.png' },
+            { name: 'Каннеллони', nameEn: 'Cannelloni',  img: 'images/каннеллони.png' },
+            { name: 'Конкилье',   nameEn: 'Conchiglie',  img: 'images/конкилье.png' },
+            { name: 'Макароны',   nameEn: 'Maccheroni',  img: 'images/макароны.jpg' },
+        ];
+
+        var qOverlay    = document.getElementById('quizOverlay');
+        var qTrigger    = document.getElementById('quizTrigger');
+        var qCloseBtn   = document.getElementById('quizClose');
+        var qImg        = document.getElementById('quizImg');
+        var qAnswers    = document.getElementById('quizAnswers');
+        var qNextBtn    = document.getElementById('quizNext');
+        var qProgress   = document.getElementById('quizProgressFill');
+        var qScoreDisp  = document.getElementById('quizScoreDisplay');
+        var qScreen     = document.getElementById('quizQuestion');
+        var qRScreen    = document.getElementById('quizResult');
+        var qRScore     = document.getElementById('quizResultScore');
+        var qRMsg       = document.getElementById('quizResultMsg');
+        var qRestartBtn = document.getElementById('quizRestart');
+
+        if (!qTrigger) { console.error('quizTrigger not found'); return; }
+        if (!qOverlay) { console.error('quizOverlay not found'); return; }
+
+        var TOTAL = 10;
+        var deck = [], qIdx = 0, qScore = 0, qAnswered = false;
+
+        function shuffleArr(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+            }
+            return a;
+        }
+
+        function getLang() { return localStorage.getItem('pasta-lang') || 'ru'; }
+
+        function getDisplayName(pasta) {
+            var lang = getLang();
+            if (lang === 'en' || lang === 'it') return pasta.nameEn;
+            if (lang === 'uk' && typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS.uk && TRANSLATIONS.uk.cards) {
+                var t = TRANSLATIONS.uk.cards[pasta.name];
+                if (t) return t.name;
+            }
+            return pasta.name;
+        }
+
+        function getLabel(key) {
+            var lang = getLang();
+            var map = {
+                question: { ru: 'Как называется эта форма?', uk: 'Як називається ця форма?', en: 'What is this pasta shape?', it: 'Come si chiama questa pasta?' },
+                next:     { ru: 'Следующий вопрос', uk: 'Наступне питання', en: 'Next question', it: 'Prossima domanda' },
+                result:   { ru: 'Результат', uk: 'Результат', en: 'See results', it: 'Risultato' },
+            };
+            return (map[key] && map[key][lang]) || map[key]['ru'];
+        }
+
+        function getResultMsg(s, t) {
+            var lang = getLang();
+            var pct = s / t;
+            var msgs = {
+                ru: pct === 1   ? 'Вы — настоящий maestro della pasta. Буонджорно, Милан!' :
+                    pct >= 0.7  ? 'Отличный результат. Италия была бы горда.' :
+                    pct >= 0.4  ? 'Неплохо. Ещё немного практики — и вы sommelier пасты.' :
+                                  'Рим не сразу строился. Изучайте коллекцию и возвращайтесь.',
+                uk: pct === 1   ? 'Ви — справжній maestro della pasta. Buongiorno, Milano!' :
+                    pct >= 0.7  ? 'Чудовий результат. Італія пишається вами.' :
+                    pct >= 0.4  ? 'Непогано. Ще трохи практики — і ви sommelier пасти.' :
+                                  'Рим не відразу будувався. Вивчайте колекцію і повертайтесь.',
+                en: pct === 1   ? 'A true maestro della pasta. Buongiorno, Milano!' :
+                    pct >= 0.7  ? 'Excellent. Italy would be proud of you.' :
+                    pct >= 0.4  ? "Not bad. A little more practice and you'll be a pasta sommelier." :
+                                  "Rome wasn't built in a day. Study the collection and come back.",
+                it: pct === 1   ? 'Un vero maestro della pasta. Benvenuto a Milano!' :
+                    pct >= 0.7  ? "Risultato eccellente. L'Italia è orgogliosa di te." :
+                    pct >= 0.4  ? "Non male. Ancora un po' di pratica e sarai un sommelier della pasta." :
+                                  'Roma non è stata costruita in un giorno. Studia la collezione e torna.',
+            };
+            return (msgs[lang] || msgs['ru']);
+        }
+
+        function startQuiz() {
+            deck = shuffleArr(PASTA_LIST).slice(0, TOTAL);
+            qIdx = 0; qScore = 0; qAnswered = false;
+            qScreen.style.display = 'flex';
+            qRScreen.classList.remove('visible');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            qAnswered = false;
+            qNextBtn.classList.remove('visible');
+            var current = deck[qIdx];
+            qProgress.style.width = (qIdx / TOTAL * 100) + '%';
+            qScoreDisp.textContent = qScore + ' / ' + qIdx;
+            document.querySelector('.quiz-question-text').textContent = getLabel('question');
+            qNextBtn.textContent = (qIdx + 1 >= TOTAL) ? getLabel('result') : getLabel('next');
+
+            qImg.style.opacity = '0';
+            setTimeout(function() {
+                qImg.src = current.img;
+                qImg.alt = current.name;
+                qImg.style.opacity = '1';
+            }, 180);
+
+            var wrong = shuffleArr(PASTA_LIST.filter(function(p) { return p.name !== current.name; })).slice(0, 5);
+            var options = shuffleArr([current].concat(wrong));
+            qAnswers.innerHTML = '';
+            options.forEach(function(opt) {
+                var btn = document.createElement('button');
+                btn.className = 'quiz-answer';
+                btn.textContent = getDisplayName(opt);
+                btn.dataset.correct = (opt.name === current.name) ? '1' : '0';
+                btn.addEventListener('click', function() { handleAnswer(btn, current); });
+                qAnswers.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(btn, current) {
+            if (qAnswered) return;
+            qAnswered = true;
+            if (btn.dataset.correct === '1') qScore++;
+            qAnswers.querySelectorAll('.quiz-answer').forEach(function(b) {
+                b.disabled = true;
+                if (b.dataset.correct === '1') b.classList.add('correct');
+                else if (b === btn) b.classList.add('wrong');
+            });
+            qNextBtn.classList.add('visible');
+        }
+
+        function nextQuestion() {
+            qIdx++;
+            if (qIdx >= TOTAL) showResult(); else showQuestion();
+        }
+
+        function showResult() {
+            qProgress.style.width = '100%';
+            qScoreDisp.textContent = qScore + ' / ' + TOTAL;
+            qScreen.style.display = 'none';
+            qRScreen.classList.add('visible');
+            qRScore.textContent = qScore + '/' + TOTAL;
+            qRMsg.textContent = getResultMsg(qScore, TOTAL);
+        }
+
+        function openQuiz() {
+            qOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            startQuiz();
+        }
+
+        function closeQuiz() {
+            qOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        qTrigger.addEventListener('click', openQuiz);
+        qCloseBtn.addEventListener('click', closeQuiz);
+        qRestartBtn.addEventListener('click', startQuiz);
+        qNextBtn.addEventListener('click', nextQuestion);
+        qOverlay.addEventListener('click', function(e) { if (e.target === qOverlay) closeQuiz(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeQuiz(); });
+    })();
+    </script>
+
 
 </body>
 </html>
